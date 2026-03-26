@@ -6,90 +6,98 @@
     <title>Gestor Presupuesto</title>
     <style>
         :root {
-            --bg-color: #f0f7ff; 
-            --card-bg: #ffffff;
-            --primary: #5b9bd5; 
-            --primary-light: #e6f2ff;
-            --text-main: #2c3e50;
-            --text-muted: #7f8c8d;
-            --border: #d6e6f2;
-            --alert: #ff6b6b;
-            --success: #4ecdc4;
+            --bg-color: #f0f7ff; --card-bg: #ffffff;
+            --primary: #5b9bd5; --primary-light: #e6f2ff;
+            --text-main: #2c3e50; --text-muted: #7f8c8d;
+            --border: #d6e6f2; --alert: #ff6b6b; --success: #4ecdc4;
             --radius: 16px;
+            
+            /* Colores Categorías */
+            --cat-despensa: #ffd166; --cat-vicente: #06d6a0;
+            --cat-cuentas: #118ab2; --cat-deudas: #ef476f; --cat-otros: #9b5de5;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .view { display: none; flex: 1; flex-direction: column; height: 100%; overflow-y: auto; padding-bottom: 70px; animation: fadeIn 0.4s ease-out; }
+        .view { display: none; flex: 1; flex-direction: column; height: 100%; overflow-y: auto; padding-bottom: 80px; animation: fadeIn 0.4s ease-out; }
         .view.active { display: flex; }
 
-        /* Login */
         .login-container { margin: auto; background: var(--card-bg); padding: 2.5rem 2rem; border-radius: var(--radius); box-shadow: 0 10px 25px rgba(91, 155, 213, 0.1); text-align: center; width: 90%; max-width: 350px; }
         .login-container h2 { margin-bottom: 0.5rem; color: var(--primary); font-size: 1.8rem; }
         .login-container p { margin-bottom: 2rem; color: var(--text-muted); font-size: 0.9rem; }
-        .login-container input { width: 100%; padding: 14px; margin-bottom: 1.5rem; border: 2px solid var(--border); border-radius: 12px; font-size: 1.5rem; text-align: center; letter-spacing: 8px; outline: none; transition: border-color 0.3s; color: var(--text-main); }
+        .login-container input { width: 100%; padding: 14px; margin-bottom: 1.5rem; border: 2px solid var(--border); border-radius: 12px; font-size: 1.5rem; text-align: center; letter-spacing: 8px; outline: none; transition: border-color 0.3s; }
         .login-container input:focus { border-color: var(--primary); }
 
         button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(91, 155, 213, 0.3); }
         button:active { transform: scale(0.95); }
         button:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .msg { margin-top: 1rem; font-size: 0.85rem; color: var(--alert); min-height: 20px; text-align: center;}
 
-        .msg { margin-top: 1rem; font-size: 0.85rem; color: var(--alert); min-height: 20px; }
-
-        /* Headers App */
         header { background: var(--primary); color: white; padding: 2rem 1.5rem 1.5rem; text-align: center; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: 0 4px 15px rgba(91, 155, 213, 0.2); }
         header h1 { font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 500; }
         .budget-container { background: rgba(255,255,255,0.2); display: inline-block; padding: 12px 20px; border-radius: 20px; font-size: 0.95rem; margin-top: 5px; }
         .budget-ok { font-weight: bold; font-size: 1.4rem; margin-left: 5px; display: block; margin-top: 5px; }
 
         .content { padding: 1.5rem 1rem; }
-
         .card { background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.5); }
         .card h3 { margin-bottom: 1.2rem; font-size: 1.1rem; color: var(--primary); display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 10px;}
 
-        /* Loader */
-        .loader { border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; }
+        .loader { border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #dash-content { display: none; }
 
-        /* Resumen Mensual */
         .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center; margin-top: 10px; }
         .summary-box { background: var(--primary-light); padding: 15px 10px; border-radius: 12px; }
         .summary-box span { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
         .summary-box strong { font-size: 1.1rem; color: var(--text-main); }
 
-        /* Alertas */
+        /* Barras Analíticas CSS */
+        .analytics-container { margin-top: 1.5rem; }
+        .bar-wrapper { margin-bottom: 12px; }
+        .bar-header { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px; font-weight: 500;}
+        .bar-bg { width: 100%; background: #edf2f7; border-radius: 8px; height: 10px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 8px; transition: width 0.8s ease-out; }
+
         .alert-section { border-left: 4px solid var(--alert); background: linear-gradient(90deg, #fff0f0 0%, #ffffff 100%); }
         .alert-section ul { list-style: none; font-size: 0.9rem; }
         .alert-section li { padding: 12px 0; border-bottom: 1px dashed var(--border); display: flex; flex-direction: column; gap: 8px; }
-        .alert-section li:last-child { border-bottom: none; }
-        .btn-resolve { background: var(--success); padding: 6px 12px; font-size: 0.8rem; border-radius: 8px; width: fit-content; align-self: flex-start; box-shadow: none; }
+        .btn-resolve { background: var(--success); padding: 6px 12px; font-size: 0.8rem; border-radius: 8px; width: fit-content; box-shadow: none; }
 
         /* Formulario */
         .form-group { margin-bottom: 1.2rem; display: flex; flex-direction: column; }
         .form-group label { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; outline: none; transition: border-color 0.3s; background-color: #fdfdfd; color: var(--text-main); }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; outline: none; transition: border-color 0.3s; background-color: #fdfdfd; }
         .form-group input:focus, .form-group select:focus { border-color: var(--primary); background-color: #fff; }
         .conditional-field { display: none; opacity: 0; transition: opacity 0.3s ease; }
         .conditional-field.show { display: flex; opacity: 1; animation: fadeIn 0.3s ease-out; }
         .form-row { display: flex; gap: 10px; }
         .form-row .form-group { flex: 1; }
 
-        /* Navegación Inferior */
+        /* Historial / CRUD */
+        .hist-filters { display: flex; justify-content: center; gap: 10px; margin-bottom: 1rem; }
+        .hist-filters button { padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--border); box-shadow: none; width: auto; }
+        .hist-filters button.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .hist-list { display: flex; flex-direction: column; gap: 10px; }
+        .hist-item { background: var(--card-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .hist-item.inactive { opacity: 0.6; background: #f8fafc; }
+        .hist-info { flex: 1; }
+        .hist-info strong { display: block; font-size: 0.95rem; color: var(--text-main); margin-bottom: 3px; }
+        .hist-info span { font-size: 0.8rem; color: var(--text-muted); }
+        .hist-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; color: white; margin-left: 5px; }
+        .hist-actions { display: flex; gap: 5px; }
+        .btn-icon { background: var(--primary-light); color: var(--primary); padding: 8px; border-radius: 8px; box-shadow: none; width: auto; font-size: 1.1rem; }
+        .btn-icon.del { background: #ffe3e3; color: var(--alert); }
+
+        /* Nav */
         #bottom-nav { position: fixed; bottom: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 1rem 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.03); border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 10;}
         #bottom-nav.hidden { display: none; }
         .nav-btn { background: transparent; color: var(--text-muted); width: auto; font-size: 1rem; box-shadow: none; padding: 8px 16px; border-radius: 20px; font-weight: 500; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .nav-btn.active { color: var(--primary); background: var(--primary-light); }
 
-        /* Modal Presupuesto */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 62, 80, 0.8); display: flex; justify-content: center; align-items: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
-        .modal-card { background: var(--card-bg); padding: 2rem; border-radius: var(--radius); width: 90%; max-width: 350px; text-align: center; animation: fadeIn 0.4s; }
-        .modal-card h3 { color: var(--primary); margin-bottom: 10px; }
-        .modal-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        .modal-card { background: var(--card-bg); padding: 2rem; border-radius: var(--radius); width: 90%; max-width: 350px; text-align: center; }
         .modal-card input { width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid var(--border); border-radius: 10px; font-size: 1.2rem; text-align: center; }
     </style>
 </head>
@@ -118,43 +126,33 @@
     <div id="dashboard-view" class="view">
         <header>
             <h1 id="user-greeting">Hola!</h1>
-            <div class="budget-container">
-                Disponible Mes Actual
-                <span id="lbl-disponible" class="budget-ok">Calculando...</span>
-            </div>
+            <div class="budget-container">Disponible Mes Actual <span id="lbl-disponible" class="budget-ok">...</span></div>
         </header>
-        
         <main class="content">
             <div id="dash-loader" class="loader"></div>
-            
-            <div id="dash-content">
+            <div id="dash-content" style="display:none;">
                 <section class="card alert-section">
                     <h3>🔔 Alertas Activas</h3>
                     <ul id="alert-list"></ul>
                 </section>
-                
                 <section class="card">
                     <h3>📊 Resumen Mensual</h3>
                     <div class="summary-grid">
-                        <div class="summary-box">
-                            <span>Presupuesto Inicial</span>
-                            <strong id="lbl-presupuesto-ini">$0</strong>
-                        </div>
-                        <div class="summary-box">
-                            <span>Gasto Acumulado</span>
-                            <strong id="lbl-gasto-mes" style="color: var(--alert);">$0</strong>
-                        </div>
+                        <div class="summary-box"><span>Presupuesto Inicial</span><strong id="lbl-presupuesto-ini">$0</strong></div>
+                        <div class="summary-box"><span>Gasto Acumulado</span><strong id="lbl-gasto-mes" style="color: var(--alert);">$0</strong></div>
                     </div>
+                    <div class="analytics-container" id="dash-bars"></div>
                 </section>
             </div>
         </main>
     </div>
 
     <div id="form-view" class="view">
-        <header><h1>Nuevo Registro</h1></header>
+        <header><h1 id="form-title">Nuevo Registro</h1></header>
         <main class="content">
             <section class="card">
                 <form id="expense-form">
+                    <input type="hidden" id="edit-id" value="">
                     <div class="form-group">
                         <label>Categoría</label>
                         <select id="categoria" required>
@@ -166,13 +164,10 @@
                             <option value="Otros">📦 Otros Gastos</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label id="lbl-item">Nombre del Producto / Gasto</label>
-                        <input type="text" id="item" required>
-                    </div>
+                    <div class="form-group"><label id="lbl-item">Nombre del Producto / Gasto</label><input type="text" id="item" required></div>
                     <div class="form-row">
                         <div class="form-group"><label>Monto (CLP)</label><input type="number" id="monto" required></div>
-                        <div class="form-group"><label>Fecha</label><input type="date" id="fecha-compra" required></div>
+                        <div class="form-group"><label>Fecha Compra</label><input type="date" id="fecha-compra" required></div>
                     </div>
                     <div class="form-row conditional-field group-insumos">
                         <div class="form-group"><label>Formato</label><input type="text" id="formato"></div>
@@ -182,33 +177,52 @@
                         <div class="form-group"><label>Cuota Actual</label><input type="number" id="cuota-actual"></div>
                         <div class="form-group"><label>Total Cuotas</label><input type="number" id="total-cuotas"></div>
                     </div>
-                    <p id="form-msg" class="msg" style="text-align: center; margin-bottom: 10px;"></p>
+                    <p id="form-msg" class="msg"></p>
                     <button type="submit" id="btn-save">Guardar Registro</button>
+                    <button type="button" id="btn-cancel-edit" style="display:none; background:var(--text-muted); margin-top:10px;">Cancelar Edición</button>
                 </form>
             </section>
         </main>
     </div>
 
+    <div id="history-view" class="view">
+        <header><h1>Historial</h1></header>
+        <main class="content">
+            <div class="hist-filters">
+                <button class="active" onclick="renderHistory('Activo')">Activos</button>
+                <button onclick="renderHistory('Inactivo')">Eliminados</button>
+            </div>
+            <div id="hist-loader" class="loader"></div>
+            <div id="hist-list" class="hist-list"></div>
+        </main>
+    </div>
+
     <nav id="bottom-nav" class="hidden">
         <button class="nav-btn active" data-target="dashboard-view"><span>📊</span><span>Dash</span></button>
-        <button class="nav-btn" data-target="form-view"><span>➕</span><span>Ingresar</span></button>
+        <button class="nav-btn" data-target="form-view"><span>➕</span><span id="nav-lbl-ingresar">Ingresar</span></button>
+        <button class="nav-btn" data-target="history-view"><span>📋</span><span>Historial</span></button>
     </nav>
 
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbxWIpZM9xVUEXM_FsOxka4_mFERd7wPaF-tCy9g5H4PZ-z934oKguE5h3rTYaXZu6tsAQ/exec';
+        
+        let allHistoryData = []; // Cache local
+        const catColors = { 'Despensa': 'var(--cat-despensa)', 'Vicente': 'var(--cat-vicente)', 'Cuentas': 'var(--cat-cuentas)', 'Deudas': 'var(--cat-deudas)', 'Otros': 'var(--cat-otros)' };
 
-        // Helpers
         const getMesAnioActual = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; };
         const formatCLP = (num) => new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(num);
 
-        // Vistas & Navegación
         const switchView = (id) => { document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(id).classList.add('active'); };
+        
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
+                if(btn.id === 'btn-cancel-edit') return;
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                 e.currentTarget.classList.add('active');
-                switchView(e.currentTarget.getAttribute('data-target'));
-                if(e.currentTarget.getAttribute('data-target') === 'dashboard-view') loadDashboard(); // Recargar al volver al dash
+                const target = e.currentTarget.getAttribute('data-target');
+                switchView(target);
+                if(target === 'dashboard-view') loadDashboard();
+                if(target === 'history-view') loadHistory();
             });
         });
 
@@ -216,99 +230,153 @@
         document.getElementById('btn-login').addEventListener('click', async () => {
             const pin = document.getElementById('pin-input').value.trim();
             const msg = document.getElementById('login-msg');
-            if (!pin) return;
-            msg.innerText = "Verificando..."; msg.style.color = "var(--text-muted)";
+            if (!pin) return; msg.innerText = "Verificando..."; msg.style.color = "var(--text-muted)";
             try {
                 const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', pin }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
                 const result = await res.json();
                 if (result.status === 'success' && result.data.autenticado) {
                     document.getElementById('user-greeting').innerText = `Hola, ${result.data.nombre}!`;
                     document.getElementById('pin-input').value = '';
-                    switchView('dashboard-view');
-                    document.getElementById('bottom-nav').classList.remove('hidden');
+                    switchView('dashboard-view'); document.getElementById('bottom-nav').classList.remove('hidden');
                     loadDashboard();
                 } else { msg.innerText = "PIN incorrecto."; msg.style.color = "var(--alert)"; }
-            } catch (e) { msg.innerText = "Error de conexión."; msg.style.color = "var(--alert)"; }
+            } catch (e) { msg.innerText = "Error."; msg.style.color = "var(--alert)"; }
         });
 
-        // 2. CARGAR DASHBOARD (Fase 3)
+        // 2. DASHBOARD Y ANALÍTICA
         async function loadDashboard() {
-            document.getElementById('dash-loader').style.display = 'block';
-            document.getElementById('dash-content').style.display = 'none';
-            const mesAnio = getMesAnioActual();
-
+            document.getElementById('dash-loader').style.display = 'block'; document.getElementById('dash-content').style.display = 'none';
             try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'get_dashboard', payload: { mesAnio } }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'get_dashboard', payload: { mesAnio: getMesAnioActual() } }) });
                 const result = await res.json();
                 if (result.status === 'success') {
                     const data = result.data;
-                    
-                    if (data.presupuesto === null) {
-                        // Mostrar modal si no hay presupuesto este mes
-                        document.getElementById('budget-modal').classList.add('active');
-                    } else {
-                        // Pintar datos
-                        const disponible = data.presupuesto - data.gastado;
-                        document.getElementById('lbl-disponible').innerText = formatCLP(disponible);
+                    if (data.presupuesto === null) { document.getElementById('budget-modal').classList.add('active'); } 
+                    else {
+                        document.getElementById('lbl-disponible').innerText = formatCLP(data.presupuesto - data.gastado);
                         document.getElementById('lbl-presupuesto-ini').innerText = formatCLP(data.presupuesto);
                         document.getElementById('lbl-gasto-mes').innerText = formatCLP(data.gastado);
                         
-                        // Pintar Alertas
-                        const ul = document.getElementById('alert-list');
-                        ul.innerHTML = '';
-                        if (data.alertas.length === 0) {
-                            ul.innerHTML = '<li style="color: var(--text-muted);">Todo al día. No hay alertas.</li>';
-                        } else {
-                            data.alertas.forEach(alerta => {
-                                const li = document.createElement('li');
-                                li.innerHTML = `
-                                    <span>${alerta.msg}</span>
-                                    <button class="btn-resolve" onclick="resolverAlerta('${alerta.id}')">✓ Resuelto</button>
-                                `;
-                                ul.appendChild(li);
-                            });
+                        const ul = document.getElementById('alert-list'); ul.innerHTML = '';
+                        if (data.alertas.length === 0) ul.innerHTML = '<li style="color: var(--text-muted);">Todo al día.</li>';
+                        else data.alertas.forEach(a => ul.innerHTML += `<li><span>${a.msg}</span><button class="btn-resolve" onclick="resolverAlerta('${a.id}')">✓ Resuelto</button></li>`);
+
+                        // PINTAR BARRAS
+                        const barsContainer = document.getElementById('dash-bars'); barsContainer.innerHTML = '';
+                        for (const [cat, monto] of Object.entries(data.desglose)) {
+                            if(monto > 0) {
+                                const pct = Math.min((monto / data.presupuesto) * 100, 100).toFixed(1);
+                                barsContainer.innerHTML += `
+                                    <div class="bar-wrapper">
+                                        <div class="bar-header"><span>${cat}</span><span>${formatCLP(monto)} (${pct}%)</span></div>
+                                        <div class="bar-bg"><div class="bar-fill" style="width: ${pct}%; background: ${catColors[cat] || 'var(--primary)'};"></div></div>
+                                    </div>`;
+                            }
                         }
                     }
                 }
-            } catch (e) { console.error("Error cargando dashboard", e); }
-            finally {
-                document.getElementById('dash-loader').style.display = 'none';
-                document.getElementById('dash-content').style.display = 'block';
-            }
+            } catch (e) {} finally { document.getElementById('dash-loader').style.display = 'none'; document.getElementById('dash-content').style.display = 'block'; }
         }
 
-        // 3. GUARDAR PRESUPUESTO
         document.getElementById('btn-save-budget').addEventListener('click', async () => {
-            const monto = document.getElementById('budget-input').value;
-            if(!monto) return;
-            const btn = document.getElementById('btn-save-budget');
-            btn.innerText = "Guardando..."; btn.disabled = true;
-            try {
-                await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'set_budget', payload: { mesAnio: getMesAnioActual(), monto: parseFloat(monto) } }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
-                document.getElementById('budget-modal').classList.remove('active');
-                loadDashboard();
-            } catch(e) { document.getElementById('budget-msg').innerText = "Error."; }
-            finally { btn.innerText = "Guardar Presupuesto"; btn.disabled = false; }
+            const m = document.getElementById('budget-input').value; if(!m) return;
+            document.getElementById('btn-save-budget').innerText = "Guardando...";
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'set_budget', payload: { mesAnio: getMesAnioActual(), monto: parseFloat(m) } }) });
+            document.getElementById('budget-modal').classList.remove('active'); loadDashboard();
         });
 
-        // 4. RESOLVER ALERTA
-        window.resolverAlerta = async function(id) {
-            try {
-                // UI Optismista (Ocultar inmediatamente para buena UX)
-                loadDashboard(); // Recargar silente
-                await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'resolve_alert', payload: { id } }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
-            } catch(e) { console.error("Error al resolver", e); }
-        };
+        window.resolverAlerta = async function(id) { loadDashboard(); await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'resolve_alert', payload: { id } }) }); };
 
-        // 5. FORMULARIO DINÁMICO (Fase 2 heredada)
-        document.getElementById('fecha-compra').valueAsDate = new Date();
+        // 3. HISTORIAL (CRUD)
+        async function loadHistory() {
+            document.getElementById('hist-loader').style.display = 'block'; document.getElementById('hist-list').innerHTML = '';
+            try {
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'get_history' }) });
+                const result = await res.json();
+                if (result.status === 'success') { allHistoryData = result.data; renderHistory('Activo'); }
+            } catch(e){} finally { document.getElementById('hist-loader').style.display = 'none'; }
+        }
+
+        window.renderHistory = function(estadoFilter) {
+            document.querySelectorAll('.hist-filters button').forEach(b => {
+                b.classList.remove('active');
+                if(b.innerText.includes(estadoFilter === 'Activo' ? 'Activos' : 'Eliminados')) b.classList.add('active');
+            });
+            const list = document.getElementById('hist-list'); list.innerHTML = '';
+            const filtered = allHistoryData.filter(i => i.estado === estadoFilter);
+            if(filtered.length === 0) { list.innerHTML = `<p style="text-align:center; color:var(--text-muted); margin-top:20px;">No hay registros.</p>`; return; }
+
+            filtered.forEach(i => {
+                const color = catColors[i.categoria] || 'var(--primary)';
+                list.innerHTML += `
+                    <div class="hist-item ${i.estado === 'Inactivo' ? 'inactive' : ''}">
+                        <div class="hist-info">
+                            <strong>${i.item} <span class="hist-badge" style="background:${color}">${i.categoria}</span></strong>
+                            <span>${formatCLP(i.monto)} | ${i.fechaCompra}</span>
+                        </div>
+                        ${i.estado === 'Activo' ? `
+                        <div class="hist-actions">
+                            <button class="btn-icon" onclick="editarGasto('${i.id}')">✏️</button>
+                            <button class="btn-icon del" onclick="eliminarGasto('${i.id}')">🗑️</button>
+                        </div>` : ''}
+                    </div>`;
+            });
+        }
+
+        window.eliminarGasto = async function(id) {
+            if(!confirm("¿Estás seguro de eliminar este gasto? No se sumará al dashboard.")) return;
+            const btn = event.currentTarget; btn.innerText = "⏳"; btn.disabled = true;
+            try {
+                await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_expense', payload: { id } }) });
+                loadHistory(); // Recargar
+            } catch(e){}
+        }
+
+        window.editarGasto = function(id) {
+            const item = allHistoryData.find(i => String(i.id) === String(id));
+            if(!item) return;
+            // Setear Formulario
+            document.getElementById('edit-id').value = item.id;
+            document.getElementById('categoria').value = item.categoria;
+            document.getElementById('item').value = item.item;
+            document.getElementById('monto').value = item.monto;
+            document.getElementById('fecha-compra').value = item.fechaCompra;
+            document.getElementById('formato').value = item.formato;
+            document.getElementById('duracion').value = item.duracion;
+            document.getElementById('cuota-actual').value = item.cuotaActual;
+            document.getElementById('total-cuotas').value = item.totalCuotas;
+            
+            // Disparar evento change para mostrar campos condicionales
+            document.getElementById('categoria').dispatchEvent(new Event('change'));
+            
+            // UI Mode Update
+            document.getElementById('form-title').innerText = "Editar Registro";
+            document.getElementById('btn-save').innerText = "Actualizar Registro";
+            document.getElementById('btn-cancel-edit').style.display = "block";
+            
+            // Cambiar a vista form
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.nav-btn[data-target="form-view"]').classList.add('active');
+            switchView('form-view');
+        }
+
+        document.getElementById('btn-cancel-edit').addEventListener('click', resetFormMode);
+
+        function resetFormMode() {
+            document.getElementById('expense-form').reset();
+            document.getElementById('edit-id').value = "";
+            document.getElementById('fecha-compra').valueAsDate = new Date();
+            document.getElementById('form-title').innerText = "Nuevo Registro";
+            document.getElementById('btn-save').innerText = "Guardar Registro";
+            document.getElementById('btn-cancel-edit').style.display = "none";
+            document.getElementById('categoria').dispatchEvent(new Event('change')); // Ocultar extras
+        }
+
+        // 4. FORMULARIO LÓGICA
         document.getElementById('categoria').addEventListener('change', (e) => {
-            const cat = e.target.value;
-            const insumos = document.querySelector('.group-insumos');
-            const deudas = document.querySelector('.group-deudas');
+            const cat = e.target.value; const insumos = document.querySelector('.group-insumos'); const deudas = document.querySelector('.group-deudas');
             insumos.classList.remove('show'); deudas.classList.remove('show');
             document.getElementById('formato').required = false; document.getElementById('cuota-actual').required = false; document.getElementById('total-cuotas').required = false;
-
             if (cat === 'Despensa' || cat === 'Vicente') { document.getElementById('lbl-item').innerText = "Nombre del Producto"; insumos.classList.add('show'); document.getElementById('formato').required = true; }
             else if (cat === 'Deudas') { document.getElementById('lbl-item').innerText = "Nombre de la Deuda"; deudas.classList.add('show'); document.getElementById('cuota-actual').required = true; document.getElementById('total-cuotas').required = true; }
             else { document.getElementById('lbl-item').innerText = "Nombre del Gasto"; }
@@ -318,24 +386,29 @@
             e.preventDefault();
             const btn = document.getElementById('btn-save'); const msg = document.getElementById('form-msg');
             btn.disabled = true; msg.style.color = "var(--text-muted)"; msg.innerText = "Guardando...";
+            
+            const isEdit = document.getElementById('edit-id').value !== "";
+            const action = isEdit ? 'update_expense' : 'save_expense';
+            
             const payload = {
+                id: document.getElementById('edit-id').value,
                 categoria: document.getElementById('categoria').value, item: document.getElementById('item').value, monto: document.getElementById('monto').value,
                 fechaCompra: document.getElementById('fecha-compra').value, formato: document.getElementById('formato').value, duracion: document.getElementById('duracion').value,
                 cuotaActual: document.getElementById('cuota-actual').value, totalCuotas: document.getElementById('total-cuotas').value
             };
             try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'save_expense', payload }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action, payload }) });
                 const result = await res.json();
                 if (result.status === 'success') {
-                    msg.style.color = "var(--success)"; msg.innerText = "¡Guardado!";
-                    document.getElementById('expense-form').reset();
-                    document.getElementById('fecha-compra').valueAsDate = new Date();
-                    document.querySelector('.group-insumos').classList.remove('show'); document.querySelector('.group-deudas').classList.remove('show');
+                    msg.style.color = "var(--success)"; msg.innerText = isEdit ? "¡Actualizado!" : "¡Guardado!";
+                    resetFormMode();
                     setTimeout(() => msg.innerText = "", 3000);
                 }
-            } catch (err) { msg.style.color = "var(--alert)"; msg.innerText = "Error al guardar."; }
+            } catch (err) { msg.style.color = "var(--alert)"; msg.innerText = "Error."; }
             finally { btn.disabled = false; }
         });
+        
+        resetFormMode(); // Inicializar estado
     </script>
 </body>
 </html>

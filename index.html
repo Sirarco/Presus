@@ -24,6 +24,7 @@
         .view { display: none; flex: 1; flex-direction: column; height: 100%; overflow-y: auto; padding-bottom: 80px; animation: fadeIn 0.4s ease-out; }
         .view.active { display: flex; }
 
+        /* Login */
         .login-container { margin: auto; background: var(--card-bg); padding: 2.5rem 2rem; border-radius: var(--radius); box-shadow: 0 10px 25px rgba(91, 155, 213, 0.1); text-align: center; width: 90%; max-width: 350px; }
         .login-container h2 { margin-bottom: 0.5rem; color: var(--primary); font-size: 1.8rem; }
         .login-container p { margin-bottom: 2rem; color: var(--text-muted); font-size: 0.9rem; }
@@ -35,10 +36,10 @@
         button:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
         .msg { margin-top: 1rem; font-size: 0.85rem; color: var(--alert); min-height: 20px; text-align: center;}
 
+        /* Header Limpio */
         header { background: var(--primary); color: white; padding: 2rem 1.5rem 1.5rem; text-align: center; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: 0 4px 15px rgba(91, 155, 213, 0.2); }
-        header h1 { font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 500; }
-        .budget-container { background: rgba(255,255,255,0.2); display: inline-block; padding: 12px 20px; border-radius: 20px; font-size: 0.95rem; margin-top: 5px; }
-        .budget-ok { font-weight: bold; font-size: 1.4rem; margin-left: 5px; display: block; margin-top: 5px; }
+        header h1 { font-size: 1.5rem; margin-bottom: 0.2rem; font-weight: 500; }
+        header p { font-size: 0.9rem; opacity: 0.8; }
 
         .content { padding: 1.5rem 1rem; }
         .card { background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius); box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.5); }
@@ -47,24 +48,42 @@
         .loader { border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center; margin-top: 10px; }
-        .summary-box { background: var(--primary-light); padding: 15px 10px; border-radius: 12px; }
-        .summary-box span { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
-        .summary-box strong { font-size: 1.1rem; color: var(--text-main); }
+        /* TARJETAS VERTICALES (Fase 5) */
+        .vertical-summary { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.5rem; }
+        .v-card { padding: 15px 20px; border-radius: 14px; display: flex; flex-direction: column; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: relative; overflow: hidden;}
+        .v-card::after { content: ''; position: absolute; right: -20px; top: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%; pointer-events: none;}
+        .v-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .v-card span { font-size: 0.85rem; opacity: 0.9; font-weight: 500; }
+        .v-card strong { font-size: 1.8rem; font-weight: bold; letter-spacing: -0.5px;}
+        .btn-icon-small { background: rgba(255,255,255,0.25); border: none; color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; box-shadow: none; padding: 0; transition: transform 0.2s;}
+        .btn-icon-small:active { transform: scale(0.9); }
+        
+        .v-blue { background: linear-gradient(135deg, #5b9bd5, #3a7ebd); }
+        .v-red { background: linear-gradient(135deg, #ff6b6b, #e65555); }
+        .v-green { background: linear-gradient(135deg, #4ecdc4, #3bbca3); }
 
-        /* Barras Analíticas CSS */
-        .analytics-container { margin-top: 1.5rem; }
-        .bar-wrapper { margin-bottom: 12px; }
-        .bar-header { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px; font-weight: 500;}
+        /* Acordeón Analítico (Fase 5) */
+        .analytics-container { margin-top: 0.5rem; }
+        .bar-wrapper { margin-bottom: 16px; }
+        .accordion-header { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; font-weight: 600; cursor: pointer; padding: 4px 0; align-items: center;}
+        .acc-title { display: flex; align-items: center; gap: 8px; }
+        .chevron { transition: transform 0.3s ease; font-size: 0.7rem; color: var(--text-muted); }
+        .accordion-header.active .chevron { transform: rotate(180deg); }
         .bar-bg { width: 100%; background: #edf2f7; border-radius: 8px; height: 10px; overflow: hidden; }
         .bar-fill { height: 100%; border-radius: 8px; transition: width 0.8s ease-out; }
+        
+        .accordion-content { display: none; background: #f8fafc; border-radius: 8px; padding: 10px 15px; margin-top: 8px; border: 1px solid var(--border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);}
+        .accordion-content.show { display: block; animation: fadeIn 0.3s ease-out; }
+        .acc-item { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 8px 0; border-bottom: 1px dashed var(--border); color: var(--text-main); }
+        .acc-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .acc-item strong { color: var(--text-main); font-weight: 600;}
 
         .alert-section { border-left: 4px solid var(--alert); background: linear-gradient(90deg, #fff0f0 0%, #ffffff 100%); }
         .alert-section ul { list-style: none; font-size: 0.9rem; }
         .alert-section li { padding: 12px 0; border-bottom: 1px dashed var(--border); display: flex; flex-direction: column; gap: 8px; }
         .btn-resolve { background: var(--success); padding: 6px 12px; font-size: 0.8rem; border-radius: 8px; width: fit-content; box-shadow: none; }
 
-        /* Formulario */
+        /* Formulario y Navegación (Igual) */
         .form-group { margin-bottom: 1.2rem; display: flex; flex-direction: column; }
         .form-group label { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; outline: none; transition: border-color 0.3s; background-color: #fdfdfd; }
@@ -74,7 +93,6 @@
         .form-row { display: flex; gap: 10px; }
         .form-row .form-group { flex: 1; }
 
-        /* Historial / CRUD */
         .hist-filters { display: flex; justify-content: center; gap: 10px; margin-bottom: 1rem; }
         .hist-filters button { padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--border); box-shadow: none; width: auto; }
         .hist-filters button.active { background: var(--primary); color: white; border-color: var(--primary); }
@@ -89,7 +107,6 @@
         .btn-icon { background: var(--primary-light); color: var(--primary); padding: 8px; border-radius: 8px; box-shadow: none; width: auto; font-size: 1.1rem; }
         .btn-icon.del { background: #ffe3e3; color: var(--alert); }
 
-        /* Nav */
         #bottom-nav { position: fixed; bottom: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 1rem 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.03); border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 10;}
         #bottom-nav.hidden { display: none; }
         .nav-btn { background: transparent; color: var(--text-muted); width: auto; font-size: 1rem; box-shadow: none; padding: 8px 16px; border-radius: 20px; font-weight: 500; display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -97,18 +114,21 @@
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 62, 80, 0.8); display: flex; justify-content: center; align-items: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
-        .modal-card { background: var(--card-bg); padding: 2rem; border-radius: var(--radius); width: 90%; max-width: 350px; text-align: center; }
-        .modal-card input { width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid var(--border); border-radius: 10px; font-size: 1.2rem; text-align: center; }
+        .modal-card { background: var(--card-bg); padding: 2.5rem 2rem; border-radius: var(--radius); width: 90%; max-width: 350px; text-align: center; }
+        .modal-card h3 { color: var(--primary); margin-bottom: 10px; font-size: 1.4rem;}
+        .modal-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        .modal-card input { width: 100%; padding: 14px; margin-bottom: 20px; border: 2px solid var(--border); border-radius: 10px; font-size: 1.5rem; text-align: center; }
     </style>
 </head>
 <body>
 
     <div id="budget-modal" class="modal-overlay">
         <div class="modal-card">
-            <h3>Nuevos Fondos 💰</h3>
-            <p>Hemos detectado un nuevo mes. ¿Cuál es el presupuesto inicial disponible?</p>
+            <h3 id="modal-title">Nuevos Fondos 💰</h3>
+            <p id="modal-desc">Hemos detectado un nuevo mes. ¿Cuál es el presupuesto inicial disponible?</p>
             <input type="number" id="budget-input" placeholder="Ej: 1000000" inputmode="numeric">
-            <button id="btn-save-budget">Guardar Presupuesto</button>
+            <button id="btn-save-budget">Guardar Ingreso</button>
+            <button id="btn-cancel-budget" style="background: var(--text-muted); margin-top: 10px; display: none;">Cancelar</button>
             <p id="budget-msg" class="msg"></p>
         </div>
     </div>
@@ -126,21 +146,38 @@
     <div id="dashboard-view" class="view">
         <header>
             <h1 id="user-greeting">Hola!</h1>
-            <div class="budget-container">Disponible Mes Actual <span id="lbl-disponible" class="budget-ok">...</span></div>
+            <p id="header-date">Calculando mes actual...</p>
         </header>
         <main class="content">
             <div id="dash-loader" class="loader"></div>
+            
             <div id="dash-content" style="display:none;">
+                
+                <div class="vertical-summary">
+                    <div class="v-card v-blue">
+                        <div class="v-card-header">
+                            <span>Presupuesto Total del Mes</span>
+                            <button id="btn-add-income" class="btn-icon-small" title="Agregar Ingreso">➕</button>
+                        </div>
+                        <strong id="lbl-presupuesto-ini">$0</strong>
+                    </div>
+                    <div class="v-card v-red">
+                        <span>Gasto Acumulado</span>
+                        <strong id="lbl-gasto-mes">$0</strong>
+                    </div>
+                    <div class="v-card v-green">
+                        <span>Saldo Disponible</span>
+                        <strong id="lbl-disponible">$0</strong>
+                    </div>
+                </div>
+
                 <section class="card alert-section">
                     <h3>🔔 Alertas Activas</h3>
                     <ul id="alert-list"></ul>
                 </section>
+                
                 <section class="card">
-                    <h3>📊 Resumen Mensual</h3>
-                    <div class="summary-grid">
-                        <div class="summary-box"><span>Presupuesto Inicial</span><strong id="lbl-presupuesto-ini">$0</strong></div>
-                        <div class="summary-box"><span>Gasto Acumulado</span><strong id="lbl-gasto-mes" style="color: var(--alert);">$0</strong></div>
-                    </div>
+                    <h3>📊 Desglose por Categoría</h3>
                     <div class="analytics-container" id="dash-bars"></div>
                 </section>
             </div>
@@ -148,7 +185,7 @@
     </div>
 
     <div id="form-view" class="view">
-        <header><h1 id="form-title">Nuevo Registro</h1></header>
+        <header><h1 id="form-title">Nuevo Registro</h1><p>Ingresa un gasto</p></header>
         <main class="content">
             <section class="card">
                 <form id="expense-form">
@@ -186,7 +223,7 @@
     </div>
 
     <div id="history-view" class="view">
-        <header><h1>Historial</h1></header>
+        <header><h1>Historial</h1><p>Todos tus registros</p></header>
         <main class="content">
             <div class="hist-filters">
                 <button class="active" onclick="renderHistory('Activo')">Activos</button>
@@ -204,13 +241,14 @@
     </nav>
 
     <script>
+        // --- REEMPLAZA ESTA URL POR LA NUEVA DE APPS SCRIPT ---
         const API_URL = 'https://script.google.com/macros/s/AKfycbxWIpZM9xVUEXM_FsOxka4_mFERd7wPaF-tCy9g5H4PZ-z934oKguE5h3rTYaXZu6tsAQ/exec';
         
-        let allHistoryData = []; // Cache local
+        let allHistoryData = []; 
         const catColors = { 'Despensa': 'var(--cat-despensa)', 'Vicente': 'var(--cat-vicente)', 'Cuentas': 'var(--cat-cuentas)', 'Deudas': 'var(--cat-deudas)', 'Otros': 'var(--cat-otros)' };
 
         const getMesAnioActual = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; };
-        const formatCLP = (num) => new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(num);
+        const formatCLP = (num) => new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(num);
 
         const switchView = (id) => { document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(id).classList.add('active'); };
         
@@ -236,6 +274,7 @@
                 const result = await res.json();
                 if (result.status === 'success' && result.data.autenticado) {
                     document.getElementById('user-greeting').innerText = `Hola, ${result.data.nombre}!`;
+                    document.getElementById('header-date').innerText = `Resumen de ${new Date().toLocaleString('es-ES', {month: 'long', year: 'numeric'})}`;
                     document.getElementById('pin-input').value = '';
                     switchView('dashboard-view'); document.getElementById('bottom-nav').classList.remove('hidden');
                     loadDashboard();
@@ -251,43 +290,85 @@
                 const result = await res.json();
                 if (result.status === 'success') {
                     const data = result.data;
-                    if (data.presupuesto === null) { document.getElementById('budget-modal').classList.add('active'); } 
-                    else {
-                        document.getElementById('lbl-disponible').innerText = formatCLP(data.presupuesto - data.gastado);
+                    
+                    if (data.presupuesto === null) { 
+                        mostrarModalPresupuesto("Nuevos Fondos 💰", "Hemos detectado un nuevo mes. ¿Cuál es el presupuesto inicial disponible?", false);
+                    } else {
+                        // Pintar Tarjetas Verticales
                         document.getElementById('lbl-presupuesto-ini').innerText = formatCLP(data.presupuesto);
                         document.getElementById('lbl-gasto-mes').innerText = formatCLP(data.gastado);
+                        document.getElementById('lbl-disponible').innerText = formatCLP(data.presupuesto - data.gastado);
                         
+                        // Pintar Alertas
                         const ul = document.getElementById('alert-list'); ul.innerHTML = '';
                         if (data.alertas.length === 0) ul.innerHTML = '<li style="color: var(--text-muted);">Todo al día.</li>';
                         else data.alertas.forEach(a => ul.innerHTML += `<li><span>${a.msg}</span><button class="btn-resolve" onclick="resolverAlerta('${a.id}')">✓ Resuelto</button></li>`);
 
-                        // PINTAR BARRAS
+                        // Pintar Acordeón por Categoría (Fase 5)
                         const barsContainer = document.getElementById('dash-bars'); barsContainer.innerHTML = '';
-                        for (const [cat, monto] of Object.entries(data.desglose)) {
-                            if(monto > 0) {
-                                const pct = Math.min((monto / data.presupuesto) * 100, 100).toFixed(1);
+                        for (const [cat, dataObj] of Object.entries(data.desglose)) {
+                            const montoTotal = dataObj.total;
+                            if(montoTotal > 0) {
+                                const pct = Math.min((montoTotal / data.presupuesto) * 100, 100).toFixed(1);
+                                
+                                // Generar lista de sub-items
+                                let itemsHtml = dataObj.items.map(i => `<div class="acc-item"><span>${i.nombre}</span><strong>${formatCLP(i.monto)}</strong></div>`).join('');
+                                
                                 barsContainer.innerHTML += `
                                     <div class="bar-wrapper">
-                                        <div class="bar-header"><span>${cat}</span><span>${formatCLP(monto)} (${pct}%)</span></div>
+                                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                                            <div class="acc-title"><span class="chevron">▼</span> ${cat}</div>
+                                            <span>${formatCLP(montoTotal)} (${pct}%)</span>
+                                        </div>
                                         <div class="bar-bg"><div class="bar-fill" style="width: ${pct}%; background: ${catColors[cat] || 'var(--primary)'};"></div></div>
+                                        <div class="accordion-content">
+                                            ${itemsHtml}
+                                        </div>
                                     </div>`;
                             }
                         }
                     }
                 }
-            } catch (e) {} finally { document.getElementById('dash-loader').style.display = 'none'; document.getElementById('dash-content').style.display = 'block'; }
+            } catch (e) { console.error(e); } finally { document.getElementById('dash-loader').style.display = 'none'; document.getElementById('dash-content').style.display = 'block'; }
         }
+
+        // Lógica de Modal Presupuesto (Dinámico)
+        function mostrarModalPresupuesto(titulo, desc, mostrarCancelar) {
+            document.getElementById('modal-title').innerText = titulo;
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('budget-input').value = '';
+            document.getElementById('btn-cancel-budget').style.display = mostrarCancelar ? 'inline-block' : 'none';
+            document.getElementById('budget-modal').classList.add('active');
+        }
+
+        document.getElementById('btn-add-income').addEventListener('click', () => {
+            mostrarModalPresupuesto("Agregar Ingreso 💰", "Ingresa el nuevo monto para sumarlo al total de este mes.", true);
+        });
+
+        document.getElementById('btn-cancel-budget').addEventListener('click', () => {
+            document.getElementById('budget-modal').classList.remove('active');
+        });
 
         document.getElementById('btn-save-budget').addEventListener('click', async () => {
             const m = document.getElementById('budget-input').value; if(!m) return;
-            document.getElementById('btn-save-budget').innerText = "Guardando...";
+            const btn = document.getElementById('btn-save-budget');
+            btn.innerText = "Guardando..."; btn.disabled = true;
             await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'set_budget', payload: { mesAnio: getMesAnioActual(), monto: parseFloat(m) } }) });
-            document.getElementById('budget-modal').classList.remove('active'); loadDashboard();
+            btn.innerText = "Guardar Ingreso"; btn.disabled = false;
+            document.getElementById('budget-modal').classList.remove('active'); 
+            loadDashboard();
         });
+
+        // Lógica del Acordeón
+        window.toggleAccordion = function(element) {
+            element.classList.toggle('active');
+            const content = element.nextElementSibling.nextElementSibling; // Salta el div de la barra para llegar al content
+            content.classList.toggle('show');
+        };
 
         window.resolverAlerta = async function(id) { loadDashboard(); await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'resolve_alert', payload: { id } }) }); };
 
-        // 3. HISTORIAL (CRUD)
+        // 3. HISTORIAL (CRUD) - Mantenido igual
         async function loadHistory() {
             document.getElementById('hist-loader').style.display = 'block'; document.getElementById('hist-list').innerHTML = '';
             try {
@@ -328,14 +409,13 @@
             const btn = event.currentTarget; btn.innerText = "⏳"; btn.disabled = true;
             try {
                 await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_expense', payload: { id } }) });
-                loadHistory(); // Recargar
+                loadHistory(); 
             } catch(e){}
         }
 
         window.editarGasto = function(id) {
             const item = allHistoryData.find(i => String(i.id) === String(id));
             if(!item) return;
-            // Setear Formulario
             document.getElementById('edit-id').value = item.id;
             document.getElementById('categoria').value = item.categoria;
             document.getElementById('item').value = item.item;
@@ -346,15 +426,12 @@
             document.getElementById('cuota-actual').value = item.cuotaActual;
             document.getElementById('total-cuotas').value = item.totalCuotas;
             
-            // Disparar evento change para mostrar campos condicionales
             document.getElementById('categoria').dispatchEvent(new Event('change'));
             
-            // UI Mode Update
             document.getElementById('form-title').innerText = "Editar Registro";
             document.getElementById('btn-save').innerText = "Actualizar Registro";
             document.getElementById('btn-cancel-edit').style.display = "block";
             
-            // Cambiar a vista form
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.querySelector('.nav-btn[data-target="form-view"]').classList.add('active');
             switchView('form-view');
@@ -369,7 +446,7 @@
             document.getElementById('form-title').innerText = "Nuevo Registro";
             document.getElementById('btn-save').innerText = "Guardar Registro";
             document.getElementById('btn-cancel-edit').style.display = "none";
-            document.getElementById('categoria').dispatchEvent(new Event('change')); // Ocultar extras
+            document.getElementById('categoria').dispatchEvent(new Event('change')); 
         }
 
         // 4. FORMULARIO LÓGICA
@@ -408,7 +485,7 @@
             finally { btn.disabled = false; }
         });
         
-        resetFormMode(); // Inicializar estado
+        resetFormMode(); 
     </script>
 </body>
 </html>

@@ -14,8 +14,8 @@
             --border: #d6e6f2; --alert: #ff6b6b; --warning: #ffd166; --success: #4ecdc4;
             --radius: 16px;
             --cat-despensa: #f4a261; --cat-vicente: #2a9d8f;
-            --cat-cuentas: #118ab2; --cat-deudas: #e63946; --cat-otros: #9b5de5;
-            --feria-color: #e76f51; 
+            --cat-cuentas: #118ab2; --cat-deudas: #e63946; --cat-uber: #343a40; --cat-otros: #9b5de5;
+            --feria-color: #e76f51; --baby-color: #ffb5a7; --baby-dark: #e5989b;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
@@ -30,19 +30,12 @@
         .nav-btn { background: transparent; color: rgba(255,255,255,0.7); border: none; font-size: 0.95rem; cursor: pointer; padding: 8px 12px; border-radius: 8px; transition: 0.3s; white-space: nowrap;}
         .nav-btn.active { background: rgba(255,255,255,0.2); color: white; font-weight: bold;}
 
-        /* Selector de Periodo (Fase 8) */
-        .period-selector-bar { background: var(--card-bg); padding: 10px 20px; display: flex; gap: 10px; overflow-x: auto; border-bottom: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,0.02); display: none; }
-        .period-selector-bar.show { display: flex; }
-        .period-tab { background: var(--bg-color); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.2s;}
-        .period-tab.active { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
-
         .main-container { flex: 1; overflow-y: auto; padding: 20px; }
         .view { display: none; animation: fadeIn 0.4s ease-out; }
         .view.active { display: block; }
 
         .login-container { margin: 10vh auto; background: var(--card-bg); padding: 2.5rem 2rem; border-radius: var(--radius); box-shadow: 0 10px 25px rgba(91, 155, 213, 0.1); text-align: center; width: 90%; max-width: 350px; }
         .login-container input { width: 100%; padding: 14px; margin-bottom: 1.5rem; border: 2px solid var(--border); border-radius: 12px; font-size: 1.5rem; text-align: center; letter-spacing: 8px; outline: none; transition: 0.3s; }
-        .login-container input:focus { border-color: var(--primary); }
         button.btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
         button.btn-primary:active { transform: scale(0.95); }
 
@@ -52,6 +45,7 @@
         .desktop-grid { display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 1200px; margin: 0 auto;}
         @media (min-width: 850px) { .desktop-grid { grid-template-columns: 350px 1fr; } .main-container { padding: 40px 20px; } }
 
+        /* Dashboard Continuo */
         .vertical-summary { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.5rem; }
         .v-card { padding: 15px 20px; border-radius: 14px; display: flex; flex-direction: column; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); position: relative; overflow: hidden;}
         .v-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
@@ -60,60 +54,60 @@
         .v-blue { background: linear-gradient(135deg, #5b9bd5, #3a7ebd); }
         .v-red { background: linear-gradient(135deg, #ff6b6b, #e65555); }
         .v-green { background: linear-gradient(135deg, #4ecdc4, #3bbca3); }
-        .v-orange { background: linear-gradient(135deg, #f4a261, #e76f51); } 
         .btn-icon-small { background: rgba(255,255,255,0.25); border: none; color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;}
 
-        .notepad { background: #fffdf5; border: 1px solid #f1e4b3; padding: 15px; border-radius: 12px; box-shadow: 2px 2px 10px rgba(0,0,0,0.02); }
+        /* Cotizador */
+        .notepad { background: #fffdf5; border: 1px solid #f1e4b3; padding: 15px; border-radius: 12px; position: relative;}
         .notepad-input-group { display: flex; gap: 8px; margin-bottom: 15px; }
-        .notepad input { flex: 1; border: none; border-bottom: 2px solid #e2d5a3; background: transparent; padding: 5px; font-size: 1rem; outline: none; }
+        .notepad input[type="text"] { flex: 1; border: none; border-bottom: 2px solid #e2d5a3; background: transparent; padding: 5px; font-size: 1rem; outline: none; }
         .notepad button { background: var(--primary); color: white; border: none; border-radius: 8px; padding: 0 15px; cursor: pointer;}
-        .tags-container { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag { padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; color: white; display: flex; align-items: center; gap: 5px; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
-        .tag:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        .tag-author { background: rgba(0,0,0,0.2); border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;}
+        .tags-container { display: flex; flex-direction: column; gap: 8px; margin-bottom: 40px;}
+        .tag-row { display: flex; align-items: center; gap: 10px; background: white; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2d5a3;}
+        .tag-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer;}
+        .tag-info { flex: 1; font-size: 0.9rem; cursor: pointer;}
+        .tag-price { font-weight: bold; color: var(--primary);}
+        .tag-author { background: #edf2f7; color: var(--text-muted); border-radius: 5px; padding: 2px 6px; font-size: 0.7rem; font-weight: bold;}
+        .cotizador-bar { position: absolute; bottom: 0; left: 0; width: 100%; background: var(--primary); color: white; padding: 10px 15px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: bold;}
 
+        /* Desglose Interactivo */
         .floating-card { background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 12px; border: 1px solid var(--border); overflow: hidden; }
         .fc-header { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: #fafbfc; transition: 0.2s; }
-        .fc-header:hover { background: #f1f5f9; }
         .fc-title { display: flex; align-items: center; gap: 10px; font-weight: 600; }
         .fc-color-dot { width: 12px; height: 12px; border-radius: 50%; }
         .fc-amount { font-weight: bold; color: var(--text-main); }
         .fc-content { display: none; padding: 0 15px 15px 15px; background: white; border-top: 1px dashed var(--border); }
         .fc-content.show { display: block; animation: fadeIn 0.3s; }
-        .acc-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
-        .acc-item:last-child { border-bottom: none; }
-        
+        .acc-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: 0.2s;}
+        .acc-item:hover { background: #f8fafc; }
         .semaforo { font-size: 0.75rem; font-weight: 600; display: block; margin-top: 3px; }
-        .semaforo.red { color: var(--alert); }
-        .semaforo.yellow { color: var(--warning); text-shadow: 0px 0px 1px rgba(0,0,0,0.1); }
-        .semaforo.green { color: var(--success); }
-        .item-author { font-size: 0.7rem; color: var(--text-muted); background: #edf2f7; padding: 2px 6px; border-radius: 10px; margin-left: 5px;}
+        .semaforo.red { color: var(--alert); } .semaforo.yellow { color: var(--warning); } .semaforo.green { color: var(--success); }
 
+        /* Valentina Tab (Fase 10) */
+        .baby-header { background: linear-gradient(135deg, var(--baby-color), var(--baby-dark)); color: white; padding: 30px 20px; border-radius: var(--radius); text-align: center; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(229,152,155,0.3);}
+        .baby-week { font-size: 3rem; font-weight: bold; line-height: 1; margin: 10px 0;}
+        .baby-size { font-size: 1.2rem; opacity: 0.9;}
+        .baby-nav { display: flex; justify-content: space-between; margin-top: 15px;}
+        .btn-baby { background: rgba(255,255,255,0.3); border: none; color: white; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold;}
+        .baby-card { background: white; border-radius: var(--radius); padding: 20px; border-left: 5px solid var(--baby-color); margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);}
+        .baby-card h4 { color: var(--baby-dark); margin-bottom: 8px; font-size: 1.1rem;}
+        .baby-card p { color: var(--text-main); font-size: 0.95rem; line-height: 1.5;}
+
+        /* Formularios y Modales */
         .form-group { margin-bottom: 1.2rem; display: flex; flex-direction: column; }
         .form-group label { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; outline: none; transition: border-color 0.3s; background-color: #fdfdfd; }
-        .form-group input:focus, .form-group select:focus { border-color: var(--primary); background-color: #fff; }
-        .conditional-field { display: none; opacity: 0; transition: opacity 0.3s ease; }
-        .conditional-field.show { display: flex; opacity: 1; animation: fadeIn 0.3s ease-out; }
-        .form-row { display: flex; gap: 10px; flex-wrap: wrap;}
-        .form-row .form-group { flex: 1; min-width: 120px;}
-
-        .hist-list { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        @media (min-width: 850px) { .hist-list { grid-template-columns: 1fr 1fr; } }
-        .hist-item { background: var(--card-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s;}
-        .hist-item:hover { border-color: var(--primary); box-shadow: 0 4px 10px rgba(91,155,213,0.1); }
-        .hist-info strong { display: block; font-size: 0.95rem; color: var(--text-main); margin-bottom: 3px; }
-        .hist-info span { font-size: 0.8rem; color: var(--text-muted); }
-        .hist-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; color: white; margin-left: 5px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; outline: none;}
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+        .conditional-field { display: none; } .conditional-field.show { display: flex; }
+        .form-row { display: flex; gap: 10px; flex-wrap: wrap;} .form-row .form-group { flex: 1; min-width: 120px;}
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 62, 80, 0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s; }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
-        .modal-card { background: var(--card-bg); padding: 2rem; border-radius: var(--radius); width: 90%; max-width: 350px; text-align: center; }
+        .modal-card { background: var(--card-bg); padding: 2rem; border-radius: var(--radius); width: 90%; max-width: 400px; text-align: left; }
+        .modal-card.center { text-align: center; }
         
         .msg { font-size: 0.85rem; color: var(--alert); min-height: 20px; text-align: center; margin: 10px 0;}
         .loader { border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .feria-trend { font-size: 0.85rem; padding: 3px 8px; border-radius: 10px; margin-left: 10px; font-weight: bold; background: rgba(255,255,255,0.2);}
     </style>
 </head>
 <body>
@@ -122,30 +116,26 @@
         <div class="nav-brand">🐱 Optimiza</div>
         <div class="nav-links">
             <button class="nav-btn active" data-target="dashboard-view">Dash</button>
-            <button class="nav-btn" data-target="feria-view" style="color: #ffd166;">🍎 Feria</button>
+            <button class="nav-btn" data-target="valentina-view" style="color: #ffb5a7;">👶 Valentina</button>
             <button class="nav-btn" data-target="form-view">Ingresar</button>
             <button class="nav-btn" data-target="history-view">Historial</button>
         </div>
         <div class="nav-user" id="nav-user-name">Usuario</div>
     </nav>
 
-    <div id="period-bar" class="period-selector-bar">
-        </div>
-
     <div id="budget-modal" class="modal-overlay">
-        <div class="modal-card">
-            <h3 id="modal-title">Fondos 💰</h3>
-            <p id="modal-desc">Ingresa el monto.</p>
-            <input type="month" id="budget-periodo" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid var(--border);">
-            <input type="number" id="budget-input" placeholder="Monto (Ej: 1000000)" style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid var(--border); font-size:1.2rem; text-align:center;">
-            <button class="btn-primary" id="btn-save-budget">Guardar</button>
-            <button class="btn-primary" id="btn-cancel-budget" style="background:var(--text-muted); margin-top:10px;">Cancelar</button>
+        <div class="modal-card center">
+            <h3>Agregar Fondos 💰</h3>
+            <p>Suma dinero a tu pozo continuo.</p>
+            <input type="number" id="budget-input" placeholder="Monto (Ej: 1000000)" style="width:100%; padding:12px; margin:15px 0; border-radius:8px; border:1px solid var(--border); font-size:1.2rem; text-align:center;">
+            <button class="btn-primary" id="btn-save-budget">Sumar al Pozo</button>
+            <button class="btn-primary" onclick="closeModal('budget-modal')" style="background:var(--text-muted); margin-top:10px;">Cancelar</button>
         </div>
     </div>
 
     <div id="pending-modal" class="modal-overlay">
-        <div class="modal-card">
-            <h3>Agregar a Lista 📝</h3>
+        <div class="modal-card center">
+            <h3>Lista de Compras 📝</h3>
             <p id="lbl-pending-item" style="font-weight:bold; color:var(--primary); margin-bottom:15px;"></p>
             <select id="pending-cat" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px;">
                 <option value="Despensa">🛒 Despensa</option>
@@ -153,9 +143,24 @@
                 <option value="Cuentas">📄 Cuentas</option>
                 <option value="Otros">📦 Otros</option>
             </select>
-            <input type="text" id="pending-qty" placeholder="Cantidad (Ej: 2 un, 1 Kg)" style="width:100%; padding:10px; margin-bottom:15px; border-radius:8px; border:1px solid var(--border);">
-            <button class="btn-primary" id="btn-save-pending">Añadir Pendiente</button>
-            <button class="btn-primary" id="btn-cancel-pending" style="background:var(--text-muted); margin-top:10px;">Cancelar</button>
+            <input type="text" id="pending-qty" placeholder="Cantidad (Ej: 2 un)" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid var(--border);">
+            <input type="number" id="pending-price" placeholder="Precio Estimado ($)" style="width:100%; padding:10px; margin-bottom:15px; border-radius:8px; border:1px solid var(--border);">
+            <button class="btn-primary" id="btn-save-pending">Añadir a Lista</button>
+            <button class="btn-primary" onclick="closeModal('pending-modal')" style="background:var(--text-muted); margin-top:10px;">Cancelar</button>
+        </div>
+    </div>
+
+    <div id="detail-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 id="det-title" style="color:var(--primary); border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:15px;">Detalle</h3>
+            <p style="margin-bottom:8px;"><strong>Monto:</strong> <span id="det-monto" style="font-size:1.2rem; color:var(--success); font-weight:bold;"></span></p>
+            <p style="margin-bottom:8px; font-size:0.9rem;"><strong>Fecha Ingreso:</strong> <span id="det-fecha"></span></p>
+            <p style="margin-bottom:15px; font-size:0.9rem;"><strong>Registrado por:</strong> <span id="det-autor"></span></p>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button class="btn-primary" id="btn-det-edit" style="flex:1;">✏️ Editar</button>
+                <button class="btn-primary" id="btn-det-del" style="flex:1; background:#ffe3e3; color:var(--alert);">🗑️ Eliminar</button>
+            </div>
+            <button class="btn-primary" onclick="closeModal('detail-modal')" style="background:var(--text-muted); margin-top:10px; width:100%;">Cerrar</button>
         </div>
     </div>
 
@@ -164,7 +169,6 @@
         <div id="login-view" class="view active">
             <div class="login-container">
                 <h2>🐱 Optimiza</h2>
-                <p>Ingresa tu PIN de seguridad</p>
                 <input type="password" id="pin-input" placeholder="****" inputmode="numeric" maxlength="6">
                 <button class="btn-primary" id="btn-login">Ingresar</button>
                 <p id="login-msg" class="msg"></p>
@@ -177,109 +181,89 @@
                 <div class="col-left">
                     <div class="vertical-summary">
                         <div class="v-card v-blue">
-                            <div class="v-card-header"><span>Presupuesto del Periodo</span><button id="btn-add-income" class="btn-icon-small">➕</button></div>
+                            <div class="v-card-header"><span>Ingresos Totales (Histórico)</span><button onclick="document.getElementById('budget-modal').classList.add('active')" class="btn-icon-small">➕</button></div>
                             <strong id="lbl-presupuesto-ini">$0</strong>
                         </div>
                         <div class="v-card v-red">
-                            <span>Gasto Acumulado</span><strong id="lbl-gasto-mes">$0</strong>
+                            <span>Gastos Totales (Histórico)</span><strong id="lbl-gasto-mes">$0</strong>
                         </div>
                         <div class="v-card v-green">
-                            <span>Saldo Disponible</span><strong id="lbl-disponible">$0</strong>
+                            <span>Saldo Disponible Actual</span><strong id="lbl-disponible">$0</strong>
                         </div>
                     </div>
+                    
                     <section class="card notepad">
-                        <h3>📝 Lista de Compras</h3>
+                        <h3>📝 Lista de Compras y Cotizador</h3>
                         <div class="notepad-input-group">
                             <input type="text" id="input-new-pending" placeholder="Ej: Pañales, Carne...">
                             <button id="btn-add-pending">➕</button>
                         </div>
                         <div class="tags-container" id="pending-list"></div>
+                        <div class="cotizador-bar">
+                            <span>Total Seleccionado:</span>
+                            <span id="lbl-cotizador">$0</span>
+                        </div>
                     </section>
                 </div>
+                
                 <div class="col-right">
                     <section class="card">
-                        <h3>📊 Desglose y Proyecciones</h3>
+                        <h3>📊 Gastos Recientes (Últimos 30 días)</h3>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:15px;">Haz clic en un ítem para ver el detalle completo.</p>
                         <div id="dash-bars"></div>
                     </section>
                 </div>
             </div>
         </div>
 
-        <div id="feria-view" class="view">
-            <div id="feria-loader" class="loader"></div>
-            <div id="feria-content" class="desktop-grid" style="display:none;">
-                
-                <div class="col-left">
-                    <section class="card">
-                        <h3 style="color: var(--feria-color);">🍎 Ingreso Rápido Feria</h3>
-                        <form id="feria-form">
-                            <input type="hidden" id="feria-edit-id" value="">
-                            <div class="form-group">
-                                <label>Periodo Financiero (Mes de asignación)</label>
-                                <input type="month" id="feria-periodo" required>
-                            </div>
-                            <div class="form-group"><label>Producto</label><input type="text" id="feria-item" required></div>
-                            <div class="form-row">
-                                <div class="form-group"><label>Cantidad / Formato</label><input type="text" id="feria-qty" required></div>
-                                <div class="form-group"><label>Monto (CLP)</label><input type="number" id="feria-monto" required></div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Día de Feria</label>
-                                    <select id="feria-lugar" required><option value="Jueves">Jueves</option><option value="Domingo">Domingo</option><option value="Otros">Otros</option></select>
-                                </div>
-                                <div class="form-group"><label>Fecha Real</label><input type="date" id="feria-fecha" required></div>
-                            </div>
-                            <button type="submit" class="btn-primary" style="background: var(--feria-color);" id="btn-save-feria">Guardar en Feria</button>
-                            <p id="feria-msg" class="msg"></p>
-                        </form>
-                    </section>
-                </div>
-
-                <div class="col-right">
-                    <div class="vertical-summary">
-                        <div class="v-card v-orange">
-                            <div class="v-card-header"><span>Gasto Feria del Periodo</span></div>
-                            <strong id="lbl-feria-actual">$0</strong>
-                            <div style="margin-top: 10px; font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 8px;">
-                                Periodo Pasado: <span id="lbl-feria-anterior">$0</span> <span id="lbl-feria-trend" class="feria-trend"></span>
-                            </div>
-                        </div>
+        <div id="valentina-view" class="view">
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="baby-header">
+                    <h3>Semana de Gestación</h3>
+                    <div class="baby-week" id="val-week">Semana --</div>
+                    <div class="baby-size" id="val-size">Cargando...</div>
+                    <div style="font-size:0.85rem; margin-top:10px; opacity:0.8;" id="val-next">Próxima actualización: --</div>
+                    <div class="baby-nav">
+                        <button class="btn-baby" onclick="navBaby(-1)">◀ Ant</button>
+                        <button class="btn-baby" style="background:transparent; border:1px solid white;" onclick="setBabyCurrentWeek()">Hoy</button>
+                        <button class="btn-baby" onclick="navBaby(1)">Sig ▶</button>
                     </div>
-                    
-                    <section class="card">
-                        <h3 style="color: var(--feria-color);">📅 Resumen Semanal</h3>
-                        <div id="feria-semanas-list"></div>
-                    </section>
+                </div>
+                <div class="baby-card">
+                    <h4>🌱 Desarrollo del Bebé</h4>
+                    <p id="val-dev">...</p>
+                </div>
+                <div class="baby-card">
+                    <h4>💖 Síntomas de Mamá</h4>
+                    <p id="val-sin">...</p>
+                    <p id="val-rec" style="margin-top:10px; font-weight:bold; color:var(--baby-dark);">...</p>
+                </div>
+                <div class="baby-card" style="border-left-color: var(--primary);">
+                    <h4 style="color:var(--primary);">🛡️ Misión para Papá</h4>
+                    <p id="val-papa">...</p>
                 </div>
             </div>
         </div>
 
         <div id="form-view" class="view">
             <section class="card" style="max-width: 600px; margin: 0 auto;">
-                <h3 id="form-title">Nuevo Registro Principal</h3>
+                <h3 id="form-title">Nuevo Registro</h3>
                 <form id="expense-form">
                     <input type="hidden" id="edit-id" value="">
                     <input type="hidden" id="pending-id" value="">
                     
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Periodo Financiero (A qué mes se asigna)</label>
-                            <input type="month" id="main-periodo" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Categoría</label>
-                            <select id="categoria" required>
-                                <option value="" disabled selected>Selecciona...</option>
-                                <option value="Despensa">🛒 Despensa</option>
-                                <option value="Vicente">👶 Vicente (Bebé)</option>
-                                <option value="Cuentas">📄 Cuentas</option>
-                                <option value="Deudas">💳 Deudas</option>
-                                <option value="Otros">📦 Otros Gastos</option>
-                            </select>
-                        </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="categoria" required>
+                            <option value="" disabled selected>Selecciona...</option>
+                            <option value="Despensa">🛒 Despensa</option>
+                            <option value="Vicente">👶 Vicente (Bebé)</option>
+                            <option value="Cuentas">📄 Cuentas</option>
+                            <option value="Deudas">💳 Deudas</option>
+                            <option value="Uber">🚗 Uber</option>
+                            <option value="Otros">📦 Otros Gastos</option>
+                        </select>
                     </div>
-
                     <div class="form-group"><label id="lbl-item">Nombre del Producto / Gasto</label><input type="text" id="item" required></div>
                     
                     <div class="form-row">
@@ -300,17 +284,13 @@
                     
                     <p id="form-msg" class="msg"></p>
                     <button type="submit" class="btn-primary" id="btn-save">Guardar Registro</button>
-                    <button type="button" class="btn-primary" id="btn-cancel-edit" style="display:none; background:var(--text-muted); margin-top:10px;">Cancelar</button>
+                    <button type="button" class="btn-primary" onclick="resetFormMode()" id="btn-cancel-edit" style="display:none; background:var(--text-muted); margin-top:10px;">Cancelar</button>
                 </form>
             </section>
         </div>
 
         <div id="history-view" class="view">
             <div style="max-width: 900px; margin: 0 auto;">
-                <div style="display:flex; justify-content:center; gap:10px; margin-bottom:20px;">
-                    <button class="nav-btn active" style="background:var(--primary); color:white;" onclick="renderHistory('Activo', this)">Activos</button>
-                    <button class="nav-btn" style="background:var(--card-bg); color:var(--text-muted);" onclick="renderHistory('Inactivo', this)">Eliminados</button>
-                </div>
                 <div id="hist-loader" class="loader"></div>
                 <div id="hist-list" class="hist-list"></div>
             </div>
@@ -321,32 +301,59 @@
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbxWIpZM9xVUEXM_FsOxka4_mFERd7wPaF-tCy9g5H4PZ-z934oKguE5h3rTYaXZu6tsAQ/exec';
         
-        let currentUser = "";
-        let allHistoryData = []; 
-        let currentPeriod = ""; // El periodo activo en la UI ("YYYY-MM")
-        
-        const catColors = { 'Despensa': 'var(--cat-despensa)', 'Vicente': 'var(--cat-vicente)', 'Cuentas': 'var(--cat-cuentas)', 'Deudas': 'var(--cat-deudas)', 'Otros': 'var(--cat-otros)' };
+        let currentUser = ""; let allHistoryData = []; 
+        const catColors = { 'Despensa': 'var(--cat-despensa)', 'Vicente': 'var(--cat-vicente)', 'Cuentas': 'var(--cat-cuentas)', 'Deudas': 'var(--cat-deudas)', 'Uber': 'var(--cat-uber)', 'Otros': 'var(--cat-otros)' };
 
-        const getMesAnioActual = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; };
+        // BASE DE DATOS GESTACIÓN VALENTINA (JSON) [cite: 1-88]
+        const dbValentina = [
+            { sem: 1, tam: "Pestañeo", dev: "Tu cuerpo se prepara para la magia. El útero se pone lindo para recibir a un invitado especial.", sin: "Te sientes con mucha energía y tal vez un poco de emoción en el aire.", rec: "Duerme bien y come sano, ¡estás preparando el nido!", papa: "Dale muchos mimos y dile cuánto la amas, el ambiente feliz ayuda mucho." },
+            { sem: 2, tam: "Rayo de sol", dev: "¡Es el momento de la ovulación! Un óvulo espera encontrarse con la chispa de la vida.", sin: "Quizás te sientas más radiante y con ganas de estar cerquita de papá.", rec: "Disfruta de momentos románticos y tranquilos.", papa: "Organiza una cena especial, crea un ambiente de paz y amor." },
+            { sem: 3, tam: "Granito de azúcar", dev: "¡Ocurrió la magia! Una pequeña célula se divide sin parar. Ya tiene toda su información genética.", sin: "Tal vez no sientas nada aún, pero por dentro hay una fiesta de vida.", rec: "Empieza a tomar tu ácido fólico como si fuera un dulcecito de salud.", papa: "Comienza a soñar con el futuro, ¡la aventura acaba de empezar!" },
+            { sem: 4, tam: "Motita de algodón", dev: "El embrión se instala en su casita (el útero). Se están formando las capas que serán sus órganos.", sin: "Puedes sentir un leve pinchazo o sueño repentino. Tu cuerpo está trabajando mucho.", rec: "Escucha a tu cuerpo, si pide siesta, dásela con gusto.", papa: "Sé paciente si ella está más cansada de lo normal. Un jugo natural le vendrá bien." },
+            { sem: 5, tam: "Botón diminuto", dev: "¡Su corazoncito empieza a latir! Es como un motorcito de luz que no se detendrá.", sin: "Los olores se vuelven protagonistas. Tu olfato es ahora un superpoder.", rec: "Evita perfumes fuertes y busca aromas frescos como el limón.", papa: "Mantén la cocina libre de olores que le molesten. ¡Eres su héroe protector!" },
+            { sem: 6, tam: "Perla de collar", dev: "Se forman sus ojitos y las puntitas de sus brazos. Parece un tierno frijolito.", sin: "Las náuseas pueden aparecer. Es la señal de que las hormonas están a tope.", rec: "Ten galletitas de soda a mano. Pequeños bocados ayudan mucho.", papa: "Llévale el desayuno a la cama. Ese pequeño gesto es un gran alivio." },
+            { sem: 7, tam: "Piedrita de río", dev: "Su cerebro crece velozmente. ¡Ya tiene pequeñas fosas nasales!", sin: "Ganas de ir al baño muy seguido. Tu útero está creciendo y presiona un poquito.", rec: "No te aguantes las ganas de ir al baño y mantente hidratada.", papa: "Asegúrate de que siempre tenga agua fresca a su alcance." },
+            { sem: 8, tam: "Botón de camisa", dev: "¡Ya tiene párpados! Sus ojitos están formándose y sus deditos ya se asoman.", sin: "El olfato está de detective; cualquier olor fuerte la marea.", rec: "Come cositas frías o galletas de soda antes de levantarte.", papa: "Tenle siempre un vasito con agua y sácale los olores fuertes de la cocina." },
+            { sem: 9, tam: "Caramelo de miel", dev: "Ya no es un embrión, ¡ahora es un feto! Sus articulaciones empiezan a funcionar.", sin: "Cambios de humor repentinos. Es normal, ¡estás fabricando un humano!", rec: "Llora si lo necesitas, ríe si te nace. Todo sentimiento es válido.", papa: "Dale un abrazo largo cuando la veas sensible. No necesita palabras, solo tu apoyo." },
+            { sem: 10, tam: "Bombón", dev: "Sus órganos vitales ya están en su lugar y funcionando. ¡Es un pequeño gran milagro!", sin: "Tu ropa empieza a quedar un poco ajustada. ¡Tu pancita empieza a asomar!", rec: "Usa ropa cómoda que te haga sentir linda y libre.", papa: "Dile lo hermosa que se ve con su nueva figura. Su confianza es importante." },
+            { sem: 11, tam: "Reloj de pulsera", dev: "Ya puede dar pataditas, aunque todavía no las sientas. ¡Es muy activo!", sin: "Tu piel y cabello pueden verse más brillantes. ¡Es el resplandor del embarazo!", rec: "Usa bloqueador solar, tu piel está más sensible al sol.", papa: "Ayúdala a ponerse crema en la espalda y pancita para hidratar su piel." },
+            { sem: 12, tam: "Pelota de golf", dev: "Sus reflejos se desarrollan: si toca su boquita, ¡empieza a succionar!", sin: "Las náuseas suelen empezar a despedirse. Te sientes con más energía.", rec: "Aprovecha esta energía para caminar un poquito al aire libre.", papa: "Salgan a caminar juntos. El aire fresco les hará bien a los tres." },
+            { sem: 13, tam: "Teléfono móvil", dev: "¡Ya tiene huellas dactilares! Es un ser único e irrepetible en el universo.", sin: "Tu apetito regresa con fuerza. Todo te parece delicioso.", rec: "Elige snacks saludables como frutas y frutos secos.", papa: "Ten la despensa surtida con sus antojos saludables favoritos." },
+            { sem: 14, tam: "Puño cerrado", dev: "Ya puede hacer expresiones faciales. ¡Quizás esté frunciendo el ceño o sonriendo!", sin: "Entras en el segundo trimestre, el más dulce y tranquilo.", rec: "Disfruta de este bienestar para hacer planes especiales.", papa: "Es un buen momento para empezar a mirar cositas para su habitación." },
+            { sem: 15, tam: "Taza de té", dev: "Sus huesos se están endureciendo. ¡Sus oídos ya están en su lugar definitivo!", sin: "Puedes empezar a sentir la nariz tapada; es por el aumento de sangre.", rec: "Usa un humidificador si te sientes muy seca por las noches.", papa: "Léele un cuento o cántale. ¡Ya puede empezar a escuchar vibraciones!" },
+            { sem: 16, tam: "Control remoto", dev: "Sus piernas son más largas y su cabecita está más erguida. ¡Un pequeño atleta!", sin: "¡Sentirás las primeras maripositas! Son los movimientos de tu bebé.", rec: "Quédate quieta un momento al día para conectar con esos toques mágicos.", papa: "Pon tu mano en su pancita y espera en silencio. ¡La conexión es increíble!" },
+            { sem: 17, tam: "Estuche de lentes", dev: "Se está formando la grasita bajo su piel para mantener su calorcito.", sin: "Tu centro de gravedad cambia. Puedes sentirte un poco más torpe.", rec: "Usa zapatos planos y camina con calma.", papa: "Dale la mano al caminar y ayúdala a subir escaleras. Sé su soporte." },
+            { sem: 18, tam: "Libro pequeño", dev: "¡Ya bosteza y tiene hipo! Sus cuerdas vocales se están preparando.", sin: "Dolor de espalda ocasional por el peso de la pancita.", rec: "Un baño tibio antes de dormir te ayudará a relajar los músculos.", papa: "Aprende a dar masajes suaves en la zona lumbar. ¡Te lo agradecerá mil veces!" },
+            { sem: 19, tam: "Tablet pequeña", dev: "Sus sentidos se agudizan. El cerebro designa áreas para el gusto, olfato, oído, vista y tacto.", sin: "Calambres en las piernas, especialmente de noche.", rec: "Estira tus pies y come alimentos ricos en potasio como el plátano.", papa: "Si le da un calambre nocturno, ayúdala a estirar el pie suavemente." },
+            { sem: 20, tam: "Agenda", dev: "¡Llegamos a la mitad! Ahora se mide de cabeza a talones. Duerme y despierta como tú.", sin: "Tu ombligo puede empezar a salirse un poquito hacia afuera. ¡Es tierno!", rec: "Celebra este hito con una comida especial o un regalito para ti.", papa: "¡Felicidades papá! Han llegado a la mitad del camino. Unas flores para mamá." },
+            { sem: 21, tam: "Botella de agua", dev: "Sus movimientos ya no son reflejos, ¡son voluntarios! Si empujas, él responde.", sin: "Empiezan los antojos más específicos. ¡Escucha a tu paladar!", rec: "Date el gusto de ese antojo, pero siempre con equilibrio.", papa: "Si quiere un helado a las 10 pm, ¡ve por él con una sonrisa!" },
+            { sem: 22, tam: "Muñeca", dev: "Sus párpados y cejas están bien formados. Sus labios se ven claritos.", sin: "Puedes notar estrías. Son las marcas de guerra del amor.", rec: "Mucha crema hidratante y aceite de almendras en tu pancita.", papa: "Aplícale la crema con mucho amor. Hablen de cómo será cuando nazca." },
+            { sem: 23, tam: "Pelota de fútbol americano", dev: "Su piel es rojiza y arrugadita, pero pronto se llenará de ternura.", sin: "Tus encías pueden estar más sensibles. ¡Cuida tu sonrisa!", rec: "Usa un cepillo de cerdas suaves y visita al dentista.", papa: "Hazle bromas y hazla reír, la risa es la mejor medicina." },
+            { sem: 24, tam: "Regla de 30 cm", dev: "Sus pulmones empiezan a producir surfactante para poder respirar aire pronto.", sin: "El equilibrio es un reto. Tu pancita ya tiene un tamaño considerable.", rec: "Descansa con los pies en alto para evitar que se hinchen.", papa: "Prepárale un descansapiés cómodo cuando estén viendo una película." },
+            { sem: 25, tam: "Oso de peluche pequeño", dev: "Ya puede cerrar sus puñitos. ¡Es capaz de agarrar el cordón umbilical!", sin: "Aparece la acidez estomacal. El bebé ocupa más espacio.", rec: "Come porciones pequeñas y evita acostarte justo después de comer.", papa: "Ayúdala a dormir un poco sentada con muchas almohadas si tiene acidez." },
+            { sem: 26, tam: "Zapato de papá", dev: "¡Abre sus ojitos por primera vez! Puede ver la luz que atraviesa tu pancita.", sin: "Puedes sentir contracciones falsas (Braxton Hicks). No te asustes.", rec: "Respira profundo y relájate cuando sientas que la pancita se pone dura.", papa: "Recuérdale que respire con calma y dale mucha tranquilidad." },
+            { sem: 27, tam: "Botella de vino", dev: "Sus pulmones, hígado y sistema inmune están casi listos. ¡Casi un experto!", sin: "Sueños muy reales y extraños. Tu mente procesa el gran cambio.", rec: "Ten una libreta al lado de la cama para anotar esos sueños curiosos.", papa: "Escucha sus sueños sin juzgar, ¡el subconsciente es creativo!" },
+            { sem: 28, tam: "Caja de cereales", dev: "¡Ya tiene pestañas! Sus ojos parpadean y su cerebro está muy activo.", sin: "El bebé se mueve con mucha fuerza. ¡Parece un terremoto de amor!", rec: "Disfruta de esos movimientos, son señales de salud y vida.", papa: "Juega con el bebé. Empuja suavemente donde él patee y ve si responde." },
+            { sem: 29, tam: "Sartén", dev: "Su cabeza crece para albergar su cerebro en desarrollo. Necesita mucho calcio.", sin: "Te cansas más rápido. Una caminata corta parece una maratón.", rec: "No te exijas de más. Tu prioridad es gestar vida.", papa: "Encárgate de las tareas pesadas de la casa. ¡Ella necesita descansar!" },
+            { sem: 30, tam: "Almohada pequeña", dev: "Está rodeado por medio litro de líquido amniótico. ¡Está en su piscina!", sin: "Dificultad para encontrar una posición cómoda para dormir.", rec: "Usa una almohada de embarazo o muchas almohadas normales entre las piernas.", papa: "Ayúdala a acomodarse cada noche. ¡Eres su soporte de sueños!" },
+            { sem: 31, tam: "Teclado de PC", dev: "Puede girar su cabecita de lado a lado. Sus pulmones están casi maduros.", sin: "Tus pechos pueden empezar a gotear un poquito (calostro). ¡Oro líquido!", rec: "Usa protectores de lactancia si te sientes más cómoda.", papa: "Anímala en el proceso. Tu cuerpo es asombroso, mamá." },
+            { sem: 32, tam: "Lámpara de mesa", dev: "Ya tiene uñas en sus pies y manos. ¡Está casi listo para el mundo!", sin: "La pancita está muy alta y te puede costar respirar hondo.", rec: "Siéntate derecha para darle más espacio a tus pulmones.", papa: "Prepárale comidas ligeras para que no se sienta tan pesada." },
+            { sem: 33, tam: "Mochila pequeña", dev: "Sus huesos del cráneo no están unidos para poder pasar por el canal de parto.", sin: "Hinchazón en pies y manos (edema). El calor lo acentúa.", rec: "Pon tus pies en agua fría con sal al final del día.", papa: "Hazle un masaje en los pies con crema refrescante." },
+            { sem: 34, tam: "Caja de zapatos", dev: "Su sistema nervioso central y pulmones están madurando más y más cada día.", sin: "Ansiedad por la llegada del gran día. Es normal tener un poco de miedo.", rec: "Confía en tu cuerpo y en tu instinto. Estás hecha para esto.", papa: "Lean juntos sobre el parto y el cuidado del recién nacido." },
+            { sem: 35, tam: "Garrafa de agua", dev: "¡Ya no tiene mucho espacio para saltar, pero sí para estirarse!", sin: "Ganas de orinar constantes. ¡El bebé está bajando y presiona la vejiga!", rec: "No dejes de tomar agua, pero intenta tomar menos antes de dormir.", papa: "Ten siempre el auto con combustible y el bolso del hospital listo." },
+            { sem: 36, tam: "Bolsa de arroz (5kg)", dev: "Pierde el vello fino que lo cubría (lanugo). ¡Se pone guapo para conocerte!", sin: "Sientes que el bebé 'bajó'. Respiras mejor, pero caminas como pingüinito.", rec: "Camina despacio y disfruta de estos últimos días de pancita.", papa: "Instala la silla del auto para el bebé. ¡La seguridad es lo primero!" },
+            { sem: 37, tam: "Ramo de flores grande", dev: "¡Es un embarazo a término! Sus órganos pueden funcionar solitos.", sin: "Pérdida del tapón mucoso o más flujo. El cuerpo se prepara.", rec: "Mantén la calma y ten tu teléfono siempre cargado.", papa: "Sé el guardián de su paz. Evita visitas estresantes o llamadas largas." },
+            { sem: 38, tam: "Guitarra pequeña", dev: "Sigue acumulando grasita para sus tiernos cachetes. ¡Ya casi está aquí!", sin: "Contracciones más seguidas. Tu cuerpo está practicando el gran final.", rec: "Cronometra las contracciones con calma.", papa: "Sé el apoyo físico y emocional. Dale agua, masajes y mucho amor." },
+            { sem: 39, tam: "Bebé real", dev: "¡Está todo listo! Solo espera el momento perfecto para decir 'hola'.", sin: "Sensación de pesadez extrema y muchas ganas de conocerlo.", rec: "Visualiza un parto hermoso y lleno de luz.", papa: "Dile cuánto la admiras. Es la mujer más valiente y fuerte." },
+            { sem: 40, tam: "Regalo de la vida", dev: "¡El milagro se completa! El viaje de la gestación termina y empieza el de la vida.", sin: "Emoción, nervios y un amor que no cabe en el pecho.", rec: "Bienvenida a la maternidad, mamá valiente.", papa: "Bienvenido a la paternidad, papá protector. ¡A disfrutar su familia!" }
+        ];
+
         const formatCLP = (num) => new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(num);
-
-        const formatMesText = (YYYYMM) => {
-            const [y, m] = YYYYMM.split('-');
-            const date = new Date(y, m - 1);
-            return date.toLocaleString('es-ES', {month: 'long', year: 'numeric'}).replace(/^\w/, c => c.toUpperCase());
-        };
+        const closeModal = (id) => document.getElementById(id).classList.remove('active');
 
         const switchView = (id) => { 
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); 
             document.getElementById(id).classList.add('active'); 
-            
-            // Mostrar u ocultar barra de periodo según la vista
-            const periodBar = document.getElementById('period-bar');
-            if(id === 'dashboard-view' || id === 'feria-view') {
-                periodBar.classList.add('show');
-            } else {
-                periodBar.classList.remove('show');
-            }
         };
         
         document.querySelectorAll('.nav-links .nav-btn').forEach(btn => {
@@ -356,8 +363,8 @@
                 const target = e.currentTarget.getAttribute('data-target');
                 switchView(target);
                 if(target === 'dashboard-view') loadDashboard();
-                if(target === 'feria-view') loadFeriaDashboard();
                 if(target === 'history-view') loadHistory();
+                if(target === 'valentina-view') setBabyCurrentWeek();
             });
         });
 
@@ -366,309 +373,226 @@
         document.getElementById('pin-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') doLogin(); });
 
         async function doLogin() {
-            const pin = document.getElementById('pin-input').value.trim();
-            const msg = document.getElementById('login-msg');
+            const pin = document.getElementById('pin-input').value.trim(); const msg = document.getElementById('login-msg');
             if (!pin) return; msg.innerText = "Verificando..."; msg.style.color = "var(--text-muted)";
             try {
                 const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', pin }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
                 const result = await res.json();
                 if (result.status === 'success' && result.data.autenticado) {
-                    currentUser = result.data.nombre;
-                    document.getElementById('nav-user-name').innerText = currentUser;
-                    document.getElementById('top-nav').classList.remove('hidden');
-                    
-                    // Setear Periodo Inicial a mes actual
-                    currentPeriod = getMesAnioActual();
-                    document.getElementById('main-periodo').value = currentPeriod;
-                    document.getElementById('feria-periodo').value = currentPeriod;
-                    
-                    switchView('dashboard-view');
-                    loadDashboard();
+                    currentUser = result.data.nombre; document.getElementById('nav-user-name').innerText = currentUser;
+                    document.getElementById('top-nav').classList.remove('hidden'); switchView('dashboard-view'); loadDashboard();
                 } else { msg.innerText = "PIN incorrecto."; msg.style.color = "var(--alert)"; }
-            } catch (e) { msg.innerText = "Error de red."; msg.style.color = "var(--alert)"; }
+            } catch (e) { msg.innerText = "Error."; msg.style.color = "var(--alert)"; }
         }
 
-        // CONSTRUIR SELECTOR DE PERIODOS
-        function renderPeriodBar(disponibles) {
-            const bar = document.getElementById('period-bar');
-            bar.innerHTML = '';
-            
-            // Si el actual no está en los disponibles (porque no hay gastos), lo agregamos visualmente
-            if(!disponibles.includes(currentPeriod)) disponibles.unshift(currentPeriod);
-            
-            // Ordenar de nuevo por seguridad (más reciente primero)
-            disponibles.sort().reverse();
-
-            disponibles.forEach(p => {
-                const isAct = (p === currentPeriod);
-                bar.innerHTML += `<button class="period-tab ${isAct ? 'active' : ''}" onclick="changePeriod('${p}')">${formatMesText(p)}</button>`;
-            });
-        }
-
-        window.changePeriod = function(p) {
-            currentPeriod = p;
-            document.getElementById('main-periodo').value = currentPeriod; // Mantener forms sincronizados
-            document.getElementById('feria-periodo').value = currentPeriod;
-            
-            // Refrescar tabs visuales
-            document.querySelectorAll('.period-tab').forEach(b => {
-                b.classList.remove('active');
-                if(b.innerText === formatMesText(p)) b.classList.add('active');
-            });
-
-            // Recargar vista activa
-            if(document.getElementById('dashboard-view').classList.contains('active')) loadDashboard();
-            if(document.getElementById('feria-view').classList.contains('active')) loadFeriaDashboard();
-        }
-
-        // 2. DASHBOARD PRINCIPAL
+        // 2. DASHBOARD PRINCIPAL (Continuo)
         async function loadDashboard() {
             document.getElementById('dash-loader').style.display = 'block'; document.getElementById('dash-content').style.display = 'none';
             try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'get_dashboard', payload: { mesAnio: currentPeriod } }) });
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'get_dashboard' }) });
                 const result = await res.json();
                 if (result.status === 'success') {
                     const data = result.data;
-                    renderPeriodBar(data.periodosDisponibles); // Dibuja la barra de meses
+                    document.getElementById('lbl-presupuesto-ini').innerText = formatCLP(data.presupuesto);
+                    document.getElementById('lbl-gasto-mes').innerText = formatCLP(data.gastado);
+                    document.getElementById('lbl-disponible').innerText = formatCLP(data.presupuesto - data.gastado);
                     
-                    if (data.presupuesto === null) { 
-                        document.getElementById('modal-title').innerText = "Fondos 💰";
-                        document.getElementById('modal-desc').innerText = `No tienes fondos en ${formatMesText(currentPeriod)}.`;
-                        document.getElementById('budget-periodo').value = currentPeriod;
-                        document.getElementById('budget-modal').classList.add('active');
-                    } else {
-                        document.getElementById('lbl-presupuesto-ini').innerText = formatCLP(data.presupuesto);
-                        document.getElementById('lbl-gasto-mes').innerText = formatCLP(data.gastado);
-                        document.getElementById('lbl-disponible').innerText = formatCLP(data.presupuesto - data.gastado);
-                        
-                        const pList = document.getElementById('pending-list'); pList.innerHTML = '';
-                        if(data.pendientes.length === 0) pList.innerHTML = '<span style="font-size:0.8rem; color:var(--text-muted);">Sin compras pendientes.</span>';
-                        data.pendientes.forEach(p => {
-                            const initial = p.autor ? p.autor.charAt(0).toUpperCase() : '?';
-                            const color = catColors[p.categoria] || 'var(--primary)';
-                            pList.innerHTML += `
-                                <div class="tag" style="background:${color}" onclick="buyPending('${p.id}', '${p.producto}', '${p.categoria}')">
-                                    <span>${p.producto} (${p.cantidad})</span>
-                                    <div class="tag-author" title="Ingresado por ${p.autor}">${initial}</div>
-                                </div>`;
-                        });
+                    // Render Cotizador (Pendientes)
+                    const pList = document.getElementById('pending-list'); pList.innerHTML = '';
+                    if(data.pendientes.length === 0) pList.innerHTML = '<span style="font-size:0.8rem; color:var(--text-muted);">Sin compras pendientes.</span>';
+                    data.pendientes.forEach(p => {
+                        const initial = p.autor ? p.autor.charAt(0).toUpperCase() : '?';
+                        const color = catColors[p.categoria] || 'var(--primary)';
+                        pList.innerHTML += `
+                            <div class="tag-row">
+                                <input type="checkbox" class="chk-cotizador" value="${p.montoEstimado}" onchange="calcCotizador()">
+                                <div class="tag-info" onclick="buyPending('${p.id}', '${p.producto}', '${p.categoria}')">
+                                    <span style="font-weight:500;">${p.producto} (${p.cantidad})</span>
+                                    <span class="tag-price">${formatCLP(p.montoEstimado)}</span>
+                                </div>
+                                <div class="tag-author">${initial}</div>
+                            </div>`;
+                    });
+                    calcCotizador();
 
-                        const barsContainer = document.getElementById('dash-bars'); barsContainer.innerHTML = '';
-                        for (const [cat, dataObj] of Object.entries(data.desglose)) {
-                            const montoTotal = dataObj.total;
-                            if(montoTotal > 0) {
-                                let itemsHtml = dataObj.items.map(i => {
-                                    let semaforoColor = '';
-                                    if(i.diasRestantes !== null) {
-                                        if(i.diasRestantes <= 3) semaforoColor = 'red';
-                                        else if(i.diasRestantes <= 7) semaforoColor = 'yellow';
-                                        else semaforoColor = 'green';
-                                    }
-                                    let extraHtml = i.infoExtra ? `<span class="semaforo ${semaforoColor}">${i.infoExtra}</span>` : '';
-                                    let authorHtml = i.autor ? `<span class="item-author">${i.autor.charAt(0)}</span>` : '';
-                                    return `
-                                    <div class="acc-item">
-                                        <div><span style="font-weight:500;">${i.nombre}</span> ${authorHtml} ${extraHtml}</div>
-                                        <strong>${formatCLP(i.monto)}</strong>
-                                    </div>`;
-                                }).join('');
-                                
-                                barsContainer.innerHTML += `
-                                    <div class="floating-card">
-                                        <div class="fc-header" onclick="this.nextElementSibling.classList.toggle('show')">
-                                            <div class="fc-title"><div class="fc-color-dot" style="background:${catColors[cat] || 'var(--primary)'}"></div>${cat}</div>
-                                            <div class="fc-amount">${formatCLP(montoTotal)}</div>
-                                        </div>
-                                        <div class="fc-content">${itemsHtml}</div>
-                                    </div>`;
-                            }
+                    // Render Desglose (Con Modal Flotante en vez de Acordeón)
+                    const barsContainer = document.getElementById('dash-bars'); barsContainer.innerHTML = '';
+                    for (const [cat, dataObj] of Object.entries(data.desglose)) {
+                        const montoTotal = dataObj.total;
+                        if(montoTotal > 0) {
+                            let itemsHtml = dataObj.items.map(i => {
+                                let sColor = ''; if(i.diasRestantes !== null) sColor = i.diasRestantes <= 3 ? 'red' : (i.diasRestantes <= 7 ? 'yellow' : 'green');
+                                let eHtml = i.infoExtra ? `<span class="semaforo ${sColor}">${i.infoExtra}</span>` : '';
+                                // Al hacer clic, abre modal
+                                return `
+                                <div class="acc-item" onclick="openDetailModal('${i.id}', '${i.nombre}', ${i.monto}, '${i.fechaReg}', '${i.autor}')">
+                                    <div><span style="font-weight:500;">${i.nombre}</span> ${eHtml}</div>
+                                    <strong>${formatCLP(i.monto)}</strong>
+                                </div>`;
+                            }).join('');
+                            
+                            barsContainer.innerHTML += `
+                                <div class="floating-card">
+                                    <div class="fc-header" onclick="this.nextElementSibling.classList.toggle('show')">
+                                        <div class="fc-title"><div class="fc-color-dot" style="background:${catColors[cat] || 'var(--primary)'}"></div>${cat}</div>
+                                        <div class="fc-amount">${formatCLP(montoTotal)}</div>
+                                    </div>
+                                    <div class="fc-content">${itemsHtml}</div>
+                                </div>`;
                         }
                     }
                 }
             } catch (e) { console.error(e); } finally { document.getElementById('dash-loader').style.display = 'none'; document.getElementById('dash-content').style.display = 'grid'; }
         }
 
-        // --- MÓDULO FERIA ---
-        document.getElementById('feria-fecha').valueAsDate = new Date();
-        document.getElementById('feria-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btn-save-feria'); const msg = document.getElementById('feria-msg');
-            btn.disabled = true; msg.style.color = "var(--text-muted)"; msg.innerText = "Guardando...";
-            
-            const payload = {
-                periodo: document.getElementById('feria-periodo').value,
-                categoria: 'Feria', 
-                item: document.getElementById('feria-item').value, 
-                monto: document.getElementById('feria-monto').value,
-                fechaCompra: document.getElementById('feria-fecha').value, 
-                formato: document.getElementById('feria-qty').value, 
-                lugarCompra: document.getElementById('feria-lugar').value,
-                usuario: currentUser
-            };
-            
-            try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'save_expense', payload }) });
-                const result = await res.json();
-                if (result.status === 'success') {
-                    msg.style.color = "var(--success)"; msg.innerText = "¡Agregado!";
-                    document.getElementById('feria-item').value = '';
-                    document.getElementById('feria-monto').value = '';
-                    setTimeout(() => msg.innerText = "", 3000);
-                    // Actualizamos el selector de periodo visualmente al periodo que el user seleccionó para el gasto
-                    changePeriod(document.getElementById('feria-periodo').value); 
-                }
-            } catch (err) { msg.style.color = "var(--alert)"; msg.innerText = "Error."; }
-            finally { btn.disabled = false; }
-        });
-
-        async function loadFeriaDashboard() {
-            document.getElementById('feria-loader').style.display = 'block'; document.getElementById('feria-content').style.display = 'none';
-            try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'get_feria', payload: { mesAnio: currentPeriod } }) });
-                const result = await res.json();
-                if (result.status === 'success') {
-                    const data = result.data;
-                    document.getElementById('lbl-feria-actual').innerText = formatCLP(data.totalActual);
-                    document.getElementById('lbl-feria-anterior').innerText = formatCLP(data.totalAnterior);
-                    
-                    const trend = document.getElementById('lbl-feria-trend');
-                    if (data.totalActual > data.totalAnterior && data.totalAnterior > 0) {
-                        trend.innerText = "▲ Al alza"; trend.style.color = "var(--alert)";
-                    } else if (data.totalActual < data.totalAnterior && data.totalAnterior > 0) {
-                        trend.innerText = "▼ A la baja"; trend.style.color = "var(--success)";
-                    } else { trend.innerText = ""; }
-
-                    const listContainer = document.getElementById('feria-semanas-list'); listContainer.innerHTML = '';
-                    for (const [semanaStr, dataSemana] of Object.entries(data.semanas)) {
-                        if(dataSemana.total > 0) {
-                            let itemsHtml = dataSemana.items.map(i => `
-                                <div class="acc-item">
-                                    <div><span style="font-weight:500;">${i.item}</span> <span class="item-author">${i.formato} - ${i.lugar}</span></div>
-                                    <div style="display:flex; align-items:center; gap:10px;">
-                                        <strong>${formatCLP(i.monto)}</strong>
-                                        <button class="btn-icon-small" style="background:#ffe3e3; color:var(--alert); width:24px; height:24px; font-size:0.8rem;" onclick="eliminarFeria('${i.id}')">🗑️</button>
-                                    </div>
-                                </div>
-                            `).join('');
-                            
-                            listContainer.innerHTML += `
-                                <div class="floating-card">
-                                    <div class="fc-header" onclick="this.nextElementSibling.classList.toggle('show')">
-                                        <div class="fc-title"><div class="fc-color-dot" style="background:var(--feria-color)"></div>${semanaStr}</div>
-                                        <div class="fc-amount">${formatCLP(dataSemana.total)}</div>
-                                    </div>
-                                    <div class="fc-content">${itemsHtml}</div>
-                                </div>`;
-                        }
-                    }
-                    if (listContainer.innerHTML === '') listContainer.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:20px;">No hay compras este periodo.</p>';
-                }
-            } catch (e) { console.error(e); } finally { document.getElementById('feria-loader').style.display = 'none'; document.getElementById('feria-content').style.display = 'grid'; }
+        // Lógica Modal Detalle
+        let activeDetailId = null;
+        window.openDetailModal = function(id, nombre, monto, fecha, autor) {
+            activeDetailId = id;
+            document.getElementById('det-title').innerText = nombre;
+            document.getElementById('det-monto').innerText = formatCLP(monto);
+            document.getElementById('det-fecha').innerText = fecha;
+            document.getElementById('det-autor').innerText = autor || "Desconocido";
+            document.getElementById('detail-modal').classList.add('active');
         }
 
-        window.eliminarFeria = async function(id) {
-            if(!confirm("¿Eliminar este registro de la Feria?")) return;
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_expense', payload: { id } }) });
-            loadFeriaDashboard();
+        document.getElementById('btn-det-edit').addEventListener('click', async () => {
+            closeModal('detail-modal');
+            await loadHistorySilently(); 
+            editarGasto(activeDetailId);
+        });
+
+        document.getElementById('btn-det-del').addEventListener('click', () => {
+            if(!confirm("¿Eliminar este gasto?")) return;
+            closeModal('detail-modal');
+            eliminarGastoMain(activeDetailId);
+        });
+
+        // Cotizador
+        window.calcCotizador = function() {
+            let sum = 0;
+            document.querySelectorAll('.chk-cotizador:checked').forEach(chk => { sum += parseFloat(chk.value) || 0; });
+            document.getElementById('lbl-cotizador').innerText = formatCLP(sum);
         }
 
-        // LÓGICA PRESUPUESTO PRINCIPAL
-        document.getElementById('btn-add-income').addEventListener('click', () => {
-            document.getElementById('modal-title').innerText = "Agregar Ingreso 💰"; 
-            document.getElementById('modal-desc').innerText = "Asigna el ingreso al periodo correcto.";
-            document.getElementById('budget-periodo').value = currentPeriod;
-            document.getElementById('btn-cancel-budget').style.display = 'inline-block'; 
-            document.getElementById('budget-modal').classList.add('active');
-        });
-        document.getElementById('btn-cancel-budget').addEventListener('click', () => document.getElementById('budget-modal').classList.remove('active'));
-        
+        // --- PRESUPUESTO & PENDIENTES ---
         document.getElementById('btn-save-budget').addEventListener('click', async () => {
-            const m = document.getElementById('budget-input').value; 
-            const p = document.getElementById('budget-periodo').value;
-            if(!m || !p) return;
+            const m = document.getElementById('budget-input').value; if(!m) return;
             const btn = document.getElementById('btn-save-budget'); btn.innerText = "⏳"; btn.disabled = true;
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'set_budget', payload: { mesAnio: p, monto: parseFloat(m) } }) });
-            btn.innerText = "Guardar"; btn.disabled = false; 
-            document.getElementById('budget-input').value = "";
-            document.getElementById('budget-modal').classList.remove('active'); 
-            changePeriod(p); // Salta visualmente al periodo que acabas de fondear
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'set_budget', payload: { monto: parseFloat(m) } }) });
+            btn.innerText = "Sumar al Pozo"; btn.disabled = false; document.getElementById('budget-input').value = ""; closeModal('budget-modal'); loadDashboard();
         });
 
-        // LÓGICA PENDIENTES
         document.getElementById('input-new-pending').addEventListener('keypress', (e) => { if(e.key === 'Enter') document.getElementById('btn-add-pending').click(); });
         document.getElementById('btn-add-pending').addEventListener('click', () => {
             const prod = document.getElementById('input-new-pending').value.trim(); if(!prod) return;
             document.getElementById('lbl-pending-item').innerText = prod; document.getElementById('pending-modal').classList.add('active');
         });
-        document.getElementById('btn-cancel-pending').addEventListener('click', () => document.getElementById('pending-modal').classList.remove('active'));
+        
         document.getElementById('btn-save-pending').addEventListener('click', async () => {
-            const prod = document.getElementById('lbl-pending-item').innerText; const cat = document.getElementById('pending-cat').value; const qty = document.getElementById('pending-qty').value || '1 un';
+            const prod = document.getElementById('lbl-pending-item').innerText; const cat = document.getElementById('pending-cat').value; 
+            const qty = document.getElementById('pending-qty').value || '1 un'; const precio = document.getElementById('pending-price').value || 0;
             const btn = document.getElementById('btn-save-pending'); btn.innerText = "⏳"; btn.disabled = true;
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'save_pending', payload: { producto: prod, categoria: cat, cantidad: qty, usuario: currentUser } }) });
-            btn.innerText = "Añadir Pendiente"; btn.disabled = false; document.getElementById('pending-modal').classList.remove('active'); document.getElementById('input-new-pending').value = ''; loadDashboard();
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'save_pending', payload: { producto: prod, categoria: cat, cantidad: qty, usuario: currentUser, montoEstimado: precio } }) });
+            btn.innerText = "Añadir a Lista"; btn.disabled = false; closeModal('pending-modal'); document.getElementById('input-new-pending').value = ''; document.getElementById('pending-price').value = ''; loadDashboard();
         });
+        
         window.buyPending = function(id, prod, cat) {
             document.getElementById('pending-id').value = id; document.getElementById('item').value = prod; document.getElementById('categoria').value = cat;
             document.getElementById('categoria').dispatchEvent(new Event('change')); document.querySelector('.nav-btn[data-target="form-view"]').click();
         }
 
-        // LÓGICA HISTORIAL
-        async function loadHistory() {
-            document.getElementById('hist-loader').style.display = 'block'; document.getElementById('hist-list').innerHTML = '';
-            try {
-                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'get_history' }) });
-                const result = await res.json();
-                if (result.status === 'success') { allHistoryData = result.data; window.renderHistory('Activo', document.querySelector('.hist-filters button')); }
-            } catch(e){} finally { document.getElementById('hist-loader').style.display = 'none'; }
+        // --- FASE 10: VALENTINA (Embarazo) ---
+        let vCurrentViewWeek = 1;
+        const vBaseDate = new Date(2026, 1, 13, 0, 0, 0); // 13 Feb 2026 (Mes 1 = Febrero)
+        
+        function calculateRealBabyWeek() {
+            const now = new Date();
+            const diffTime = Math.abs(now - vBaseDate);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            let realWeek = Math.floor(diffDays / 7) + 1;
+            if(realWeek < 1) realWeek = 1; if(realWeek > 40) realWeek = 40;
+            return realWeek;
         }
 
-        window.renderHistory = function(estadoFilter, btnElem) {
-            if(btnElem) {
-                btnElem.parentElement.querySelectorAll('button').forEach(b => { b.style.background = 'var(--card-bg)'; b.style.color = 'var(--text-muted)'; });
-                btnElem.style.background = 'var(--primary)'; btnElem.style.color = 'white';
-            }
+        window.setBabyCurrentWeek = function() {
+            vCurrentViewWeek = calculateRealBabyWeek();
+            renderBabyUI();
+        }
+
+        window.navBaby = function(dir) {
+            vCurrentViewWeek += dir;
+            if(vCurrentViewWeek < 1) vCurrentViewWeek = 1;
+            if(vCurrentViewWeek > 40) vCurrentViewWeek = 40;
+            renderBabyUI();
+        }
+
+        function renderBabyUI() {
+            const data = dbValentina.find(w => w.sem === vCurrentViewWeek);
+            document.getElementById('val-week').innerText = `Semana ${data.sem}`;
+            document.getElementById('val-size').innerText = `Tamaño: ${data.tam}`;
+            document.getElementById('val-dev').innerText = data.dev;
+            document.getElementById('val-sin').innerText = data.sin;
+            document.getElementById('val-rec').innerText = `💡 Tip: ${data.rec}`;
+            document.getElementById('val-papa').innerText = data.papa;
+
+            // Calcular próxima actualización
+            const nextUpdate = new Date(vBaseDate.getTime() + (vCurrentViewWeek * 7 * 24 * 60 * 60 * 1000));
+            document.getElementById('val-next').innerText = `Próximo cambio: ${String(nextUpdate.getDate()).padStart(2,'0')}/${String(nextUpdate.getMonth()+1).padStart(2,'0')}`;
+        }
+
+        // --- HISTORIAL ---
+        async function loadHistorySilently() {
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'get_history' }) });
+            const result = await res.json();
+            if (result.status === 'success') allHistoryData = result.data;
+        }
+
+        async function loadHistory() {
+            document.getElementById('hist-loader').style.display = 'block'; document.getElementById('hist-list').innerHTML = '';
+            await loadHistorySilently(); document.getElementById('hist-loader').style.display = 'none'; window.renderHistory('Activo');
+        }
+
+        window.renderHistory = function(estadoFilter) {
             const list = document.getElementById('hist-list'); list.innerHTML = '';
             const filtered = allHistoryData.filter(i => i.estado === estadoFilter);
-            if(filtered.length === 0) { list.innerHTML = `<p style="text-align:center; color:var(--text-muted); margin-top:20px; grid-column: 1 / -1;">No hay registros.</p>`; return; }
-
+            if(filtered.length === 0) { list.innerHTML = `<p style="text-align:center; color:var(--text-muted); margin-top:20px;">No hay registros.</p>`; return; }
             filtered.forEach(i => {
                 const color = catColors[i.categoria] || 'var(--primary)';
                 list.innerHTML += `
-                    <div class="hist-item" onclick="${i.estado === 'Activo' ? `editarGasto('${i.id}')` : ''}" style="${i.estado === 'Inactivo' ? 'opacity:0.6;' : ''}">
-                        <div class="hist-info">
-                            <strong>${i.item} <span class="hist-badge" style="background:${color}">${i.categoria}</span></strong>
-                            <span>${formatCLP(i.monto)} | ${i.fechaCompra} <br> <small>Periodo: ${formatMesText(i.periodo)} | Por: ${i.autor}</small></span>
+                    <div class="acc-item" style="background:var(--card-bg); padding:15px; border-radius:12px; margin-bottom:10px; border:1px solid var(--border);" onclick="${i.estado === 'Activo' ? `editarGasto('${i.id}')` : ''}">
+                        <div>
+                            <strong>${i.item} <span style="background:${color}; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem;">${i.categoria}</span></strong>
+                            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">${i.fechaCompra} | Por: ${i.autor}</div>
                         </div>
-                        ${i.estado === 'Activo' ? `<button class="btn-icon-small" style="background:#ffe3e3; color:var(--alert);" onclick="event.stopPropagation(); eliminarGastoMain('${i.id}')">🗑️</button>` : ''}
+                        <div style="text-align:right;">
+                            <strong style="display:block;">${formatCLP(i.monto)}</strong>
+                            ${i.estado === 'Activo' ? `<button class="btn-icon-small" style="background:#ffe3e3; color:var(--alert); margin-top:5px;" onclick="event.stopPropagation(); eliminarGastoMain('${i.id}')">🗑️</button>` : ''}
+                        </div>
                     </div>`;
             });
         }
 
         window.eliminarGastoMain = async function(id) {
             if(!confirm("¿Eliminar gasto principal?")) return;
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_expense', payload: { id } }) }); loadHistory(); 
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'delete_expense', payload: { id } }) }); loadDashboard(); 
         }
 
         window.editarGasto = function(id) {
             const item = allHistoryData.find(i => String(i.id) === String(id)); if(!item) return;
             document.getElementById('edit-id').value = item.id; 
-            document.getElementById('main-periodo').value = item.periodo; // Pre-cargar periodo
             document.getElementById('categoria').value = item.categoria; document.getElementById('item').value = item.item;
             document.getElementById('monto').value = item.monto; document.getElementById('fecha-compra').value = item.fechaCompra; document.getElementById('formato').value = item.formato;
             document.getElementById('duracion').value = item.duracion; document.getElementById('cuota-actual').value = item.cuotaActual; document.getElementById('total-cuotas').value = item.totalCuotas;
             document.getElementById('vencimiento-cuota').value = item.vencimientoCuota || '';
             document.getElementById('categoria').dispatchEvent(new Event('change'));
-            document.getElementById('form-title').innerText = "Editar Registro Principal"; document.getElementById('btn-cancel-edit').style.display = "inline-block";
+            document.getElementById('form-title').innerText = "Editar Registro"; document.getElementById('btn-cancel-edit').style.display = "inline-block";
             document.querySelector('.nav-btn[data-target="form-view"]').click();
         }
 
-        // LÓGICA FORMULARIO PRINCIPAL
-        document.getElementById('btn-cancel-edit').addEventListener('click', resetFormMode);
-        function resetFormMode() {
+        window.resetFormMode = function() {
             document.getElementById('expense-form').reset(); document.getElementById('edit-id').value = ""; document.getElementById('pending-id').value = "";
-            document.getElementById('fecha-compra').valueAsDate = new Date(); 
-            document.getElementById('main-periodo').value = currentPeriod; // Resetear periodo al activo actual
-            document.getElementById('form-title').innerText = "Nuevo Registro Principal";
+            document.getElementById('fecha-compra').valueAsDate = new Date(); document.getElementById('form-title').innerText = "Nuevo Registro";
             document.getElementById('btn-cancel-edit').style.display = "none"; document.getElementById('categoria').dispatchEvent(new Event('change')); 
         }
 
@@ -684,26 +608,17 @@
             e.preventDefault();
             const btn = document.getElementById('btn-save'); const msg = document.getElementById('form-msg');
             btn.disabled = true; msg.style.color = "var(--text-muted)"; msg.innerText = "Guardando...";
-            
             const isEdit = document.getElementById('edit-id').value !== "";
             const payload = {
                 id: document.getElementById('edit-id').value, pendingId: document.getElementById('pending-id').value, usuario: currentUser,
-                periodo: document.getElementById('main-periodo').value, // Enviar el periodo
                 categoria: document.getElementById('categoria').value, item: document.getElementById('item').value, monto: document.getElementById('monto').value,
                 fechaCompra: document.getElementById('fecha-compra').value, formato: document.getElementById('formato').value, duracion: document.getElementById('duracion').value,
                 cuotaActual: document.getElementById('cuota-actual').value, totalCuotas: document.getElementById('total-cuotas').value, vencimientoCuota: document.getElementById('vencimiento-cuota').value
             };
-            
             try {
                 const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: isEdit ? 'update_expense' : 'save_expense', payload }) });
                 const result = await res.json();
-                if (result.status === 'success') { 
-                    msg.style.color = "var(--success)"; msg.innerText = "¡Listo!"; 
-                    resetFormMode(); 
-                    setTimeout(() => msg.innerText = "", 3000); 
-                    // Salto visual al periodo en el que el usuario acaba de guardar
-                    changePeriod(payload.periodo);
-                }
+                if (result.status === 'success') { msg.style.color = "var(--success)"; msg.innerText = "¡Listo!"; resetFormMode(); setTimeout(() => msg.innerText = "", 3000); }
             } catch (err) { msg.style.color = "var(--alert)"; msg.innerText = "Error."; } finally { btn.disabled = false; }
         });
         
